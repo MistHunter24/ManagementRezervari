@@ -44,4 +44,4 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: utter_submit
-  - action: utter_slots_values
+  - action: utter_saved_preliminary_questions

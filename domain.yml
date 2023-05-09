@@ -43,21 +43,51 @@ slots:
   gender:
     type: text
     influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: gender
   age:
     type: text
     influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: age
   weight_risk:
     type: bool
     influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: weight_risk
   hypertension:
     type: bool
     influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: hypertension
   smoker:
     type: bool
     influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: smoker
   recent_lesions:
     type: bool
     influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: recent_lesions
 
 responses:
   utter_greet:
