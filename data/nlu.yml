@@ -1,0 +1,84 @@
+version: "3.1"
+nlu:
+
+- intent: greet
+  examples: |
+    - salut
+    - salutare
+    - sal
+    - bună dimineața
+    - neața
+    - bună ziua
+    - ziua
+    - bună seara
+    - seara
+    - ciao
+    - servus
+    - buna ziua
+
+- intent: goodbye
+  examples: |
+    - o zi bună
+    - zi bună
+    - seară bună
+    - noapte bună
+    - la revedere
+    - pa pa
+    - papa
+    - pa
+    - a
+
+- intent: affirm
+  examples: |
+    - da
+    - dada
+    - dap
+    - corect
+    - așa este
+    - asa e
+    - sigur
+    - cu siguranță
+    - absolut
+
+- intent: deny
+  examples: |
+    - nu
+    - nup
+    - nunu
+    - nu chiar
+    - deloc
+    - absolut deloc
+    - nicidecum
+    - clar nu
+
+- intent: bot_challenge
+  examples: |
+    - ești un robot?
+    - vorbesc cu un robot?
+    - vorbesc cu un om?
+    - cine ești?
+    - cu cine am de-a face?
+
+- intent: request_names
+  examples: |
+    - știi cum ma cheama?
+    - aș vrea să îți spun numele
+    - nu vrei să știi cum mă cheamă?
+    - să-ți spun numele
+    - să-ți zic cum mă cheamă?
+    - sa-mi stii numele?
+    - sa-ti spun numele
+
+- intent: programare
+  examples: |
+    - aș vrea să fac o programare
+    - vreau să mă programez
+    - programare
+    - programare?
+    - caut o programare
+    - caut să mă programez
+    - vreau un consult
+    - caut un doctor
+    - vreau să văd un doctor
+    - vreau să mă vadă un doctor
+

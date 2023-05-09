@@ -1,0 +1,114 @@
+version: '3.1'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- affirm
+- bot_challenge
+- deny
+- goodbye
+- greet
+- request_names
+- programare
+forms:
+  name_form:
+    required_slots:
+    - first_name
+    - last_name
+  preliminary_questions:
+    required_slots:
+    - gender
+    - age
+    - weight_risk
+    - hypertension
+    - smoker
+    - recent_lesions
+slots:
+  first_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: first_name
+  last_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: last_name
+  gender:
+    type: text
+    influence_conversation: true
+  age:
+    type: text
+    influence_conversation: true
+  weight_risk:
+    type: bool
+    influence_conversation: true
+  hypertension:
+    type: bool
+    influence_conversation: true
+  smoker:
+    type: bool
+    influence_conversation: true
+  recent_lesions:
+    type: bool
+    influence_conversation: true
+
+responses:
+  utter_greet:
+  - text: Bună ziua! Cu ce vă pot ajuta?
+  utter_did_that_help:
+  - text: V-a ajutat această informație?
+  utter_happy:
+  - text: Super, vă pot ajuta cu altceva?
+  utter_goodbye:
+  - text: O zi bună
+  utter_iamabot:
+  - text: Sunt un chatbot construit cu Rasa.
+  utter_ask_first_name:
+  - text: Vă rog să introduceți prenumele
+  utter_ask_last_name:
+  - text: Prenumele dumneavoastră este {first_name}, care este numele?
+  utter_submit:
+  - text: Ok. Mulțumesc!
+  utter_saved_name:
+  - text: Numele dumneavoastră este {first_name} {last_name}!
+  utter_ask_how_can_I_help:
+  - text: Cu ce vă pot fi de folos?
+  utter_ask_for_whom_is_the_appointment:
+  - text: Pentru cine este controlul medical?
+  utter_ask_gender:
+  - text: Care este sexul dumneavoastră?
+  utter_ask_age:
+  - text: Câți ani aveți?
+  utter_ask_if_weight_risk:
+  - text: Sunteți supraponderal(ă) sau obez(ă)?
+  utter_ask_if_hypertension:
+  - text: Aveți hipertensiune arterială?
+  utter_ask_if_smoker:
+  - text: Sunteți fumător?
+  utter_ask_if_recent_lesions:
+  - text: Ați suferit recent o leziune?
+  utter_saved_preliminary_questions:
+  - text: |
+      Sunt corecte informatiile? 
+      Sex - {gender},
+      Vârsta - {age},
+      Supraponderal/obez - {weight_risk},
+      Hipertensiune - {hypertension},
+      Fumator - {smoker},
+      Leziuni - {lesions}
+actions:
+- utter_goodbye
+- utter_greet
+- utter_iamabot
+- utter_saved_name
+- utter_submit
+- validate_name_form
+- utter_ask_how_can_I_help
+- validate_preliminary_questions_form
