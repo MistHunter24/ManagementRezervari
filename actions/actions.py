@@ -94,12 +94,59 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         weight_risk = clean_text(slot_value)
         if len(weight_risk) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
-            return{"age":None}
+            return{"weight_risk":None}
         if intent == "affirm":
             return{"weight_risk": True}
         elif intent == "deny":
             return{"weight_risk": False} 
     
-    # def validate_hypertension()
-    # def validate_smoker()
-    # def validate_recent_lesions()
+    def validate_hypertension(self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `hypertension` value"""
+        intent = tracker.latest_message["intent"].get("name")
+        hypertension = clean_text(slot_value)
+        if len(hypertension) == 0:
+            dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
+            return{"hypertension":None}
+        if intent == "affirm":
+            return{"hypertension": True}
+        elif intent == "deny":
+            return{"hypertension": False}
+        
+    def validate_smoker(self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `smoker` value"""
+        intent = tracker.latest_message["intent"].get("name")
+        smoker = clean_text(slot_value)
+        if len(smoker) == 0:
+            dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
+            return{"smoker":None}
+        if intent == "affirm":
+            return{"smoker": True}
+        elif intent == "deny":
+            return{"smoker": False}
+        
+    def validate_recent_lesions(self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `recent_lesions` value"""
+        intent = tracker.latest_message["intent"].get("name")
+        recent_lesions = clean_text(slot_value)
+        if len(recent_lesions) == 0:
+            dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
+            return{"recent_lesions":None}
+        if intent == "affirm":
+            return{"recent_lesions": True}
+        elif intent == "deny":
+            return{"recent_lesions": False}
