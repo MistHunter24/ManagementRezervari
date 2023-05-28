@@ -32,14 +32,14 @@ rules:
 - rule: Activate preliminary_questions_form
   steps:
   - intent: programare
-  - action: preliminary_questions
-  - active_loop: preliminary_questions
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form
 
 - rule: Submit preliminary_questions_form
   condition:
-  - active_loop: preliminary_questions
+  - active_loop: preliminary_questions_form
   steps:
-  - action: preliminary_questions
+  - action: preliminary_questions_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null

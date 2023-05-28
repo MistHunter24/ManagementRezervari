@@ -52,7 +52,6 @@ class ValidationNameForm(FormValidationAction):
             return {"first_name": None, "last_name": None}
         return {"last_name": name}
 
-
 class ValidationPreliminaryQuestionForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_preliminary_questions_form"
@@ -69,6 +68,7 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(gender) == 0:
             dispatcher.utter_message(text="Ați uitat sa completați sexul")
             return{"gender": None}
+        return{"gender":gender}
 
     def validate_age(
         self,
@@ -79,9 +79,13 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
     ) -> Dict[Text, Any]:
         """Validate `age` value."""
         age = clean_numbers(slot_value)
-        if (age <= 0 or age > 100 or isinstance(age, str)):
+        if (int(age) <= 0 or int(age) > 100):
             dispatcher.utter_message(text = "Vă rog să introduceți o vârstă între 1-100 ani")
             return{"age":None}
+        if (int(age) is None):
+            dispatcher.utter_message(text = "Vă rog să introduceți o vârstă în cifre")
+            return{"age":None}
+        return{"age":age}
         
     def validate_weight_risk(self,
         slot_value: Any,
@@ -95,10 +99,13 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(weight_risk) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
             return{"weight_risk":None}
-        if intent == "affirm":
-            return{"weight_risk": True}
-        elif intent == "deny":
-            return{"weight_risk": False} 
+        if intent == "weight_risk ":
+            substring = "da"
+            if substring in weight_risk:
+                return{"weight_risk": True}
+            else:
+                return{"weight_risk": False} 
+        return{"weight_risk":weight_risk}
     
     def validate_hypertension(self,
         slot_value: Any,
@@ -112,11 +119,14 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(hypertension) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
             return{"hypertension":None}
-        if intent == "affirm":
-            return{"hypertension": True}
-        elif intent == "deny":
-            return{"hypertension": False}
-        
+        if intent == "hypertension":
+            substring = "da"
+            if substring in hypertension:
+                return{"hypertension": True}
+            else:
+                return{"hypertension": False}
+        return{"hypertension":hypertension}
+    
     def validate_smoker(self,
         slot_value: Any,
         dispatcher: CollectingDispatcher,
@@ -129,10 +139,13 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(smoker) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
             return{"smoker":None}
-        if intent == "affirm":
-            return{"smoker": True}
-        elif intent == "deny":
-            return{"smoker": False}
+        if intent == "smoker":
+            substring = "da"
+            if substring in smoker:
+                return{"smoker": True}
+            else:
+                return{"smoker": False}
+        return{"smoker":smoker}    
         
     def validate_recent_lesions(self,
         slot_value: Any,
@@ -146,7 +159,10 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(recent_lesions) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
             return{"recent_lesions":None}
-        if intent == "affirm":
-            return{"recent_lesions": True}
-        elif intent == "deny":
-            return{"recent_lesions": False}
+        elif intent == "recent_lesions":
+            substring = "da"
+            if substring in recent_lesions:
+                return{"recent_lesions": True}
+            else:
+                return{"recent_lesions": False}
+        return{"recent_lesions":recent_lesions}

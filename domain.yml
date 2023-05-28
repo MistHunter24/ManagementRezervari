@@ -15,7 +15,7 @@ forms:
     required_slots:
     - first_name
     - last_name
-  preliminary_questions:
+  preliminary_questions_form:
     required_slots:
     - gender
     - age
@@ -46,7 +46,7 @@ slots:
     mappings:
     - type: from_text
       conditions:
-      - active_loop: name_form
+      - active_loop: preliminary_questions_form
         requested_slot: gender
   age:
     type: text
@@ -54,7 +54,7 @@ slots:
     mappings:
     - type: from_text
       conditions:
-      - active_loop: name_form
+      - active_loop: preliminary_questions_form
         requested_slot: age
   weight_risk:
     type: bool
@@ -62,7 +62,7 @@ slots:
     mappings:
     - type: from_text
       conditions:
-      - active_loop: name_form
+      - active_loop: preliminary_questions_form
         requested_slot: weight_risk
   hypertension:
     type: bool
@@ -70,7 +70,7 @@ slots:
     mappings:
     - type: from_text
       conditions:
-      - active_loop: name_form
+      - active_loop: preliminary_questions_form
         requested_slot: hypertension
   smoker:
     type: bool
@@ -78,7 +78,7 @@ slots:
     mappings:
     - type: from_text
       conditions:
-      - active_loop: name_form
+      - active_loop: preliminary_questions_form
         requested_slot: smoker
   recent_lesions:
     type: bool
@@ -86,7 +86,7 @@ slots:
     mappings:
     - type: from_text
       conditions:
-      - active_loop: name_form
+      - active_loop: preliminary_questions_form
         requested_slot: recent_lesions
 
 responses:
@@ -116,13 +116,13 @@ responses:
   - text: Care este sexul dumneavoastră?
   utter_ask_age:
   - text: Câți ani aveți?
-  utter_ask_if_weight_risk:
+  utter_ask_weight_risk:
   - text: Sunteți supraponderal(ă) sau obez(ă)?
-  utter_ask_if_hypertension:
+  utter_ask_hypertension:
   - text: Aveți hipertensiune arterială?
-  utter_ask_if_smoker:
+  utter_ask_smoker:
   - text: Sunteți fumător?
-  utter_ask_if_recent_lesions:
+  utter_ask_recent_lesions:
   - text: Ați suferit recent o leziune?
   utter_saved_preliminary_questions:
   - text: |
@@ -132,7 +132,7 @@ responses:
       Supraponderal/obez - {weight_risk},
       Hipertensiune - {hypertension},
       Fumator - {smoker},
-      Leziuni - {lesions}
+      Leziuni - {recent_lesions}
 actions:
 - utter_goodbye
 - utter_greet

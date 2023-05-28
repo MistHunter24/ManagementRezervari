@@ -65,3 +65,50 @@ stories:
   - active_loop: null
   - action: utter_submit
   - action: utter_saved_name
+
+- story: Preliminary_questions_form validation
+  steps:
+  - intent: programare
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form
+  - slot_was_set:
+    - requested_slot: gender
+  - slot_was_set:
+    - gender: masculin
+  - slot_was_set:
+    - gender: masculin
+  - slot_was_set:
+    - requested_slot: age
+  - slot_was_set:
+    - age: '29'
+  - slot_was_set:
+    - age: '29'
+  - slot_was_set:
+    - requested_slot: weight_risk
+  - slot_was_set:
+    - weight_risk: nu
+  - slot_was_set:
+    - weight_risk: false
+  - slot_was_set:
+    - requested_slot: hypertension
+  - slot_was_set:
+    - hypertension: da
+  - slot_was_set:
+    - hypertension: true
+  - slot_was_set:
+    - requested_slot: smoker
+  - slot_was_set:
+    - smoker: yes
+  - slot_was_set:
+    - smoker: true
+  - slot_was_set:
+    - requested_slot: recent_lesions
+  - slot_was_set:
+    - recent_lesions: nu
+  - slot_was_set:
+    - recent_lesions: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_preliminary_questions
