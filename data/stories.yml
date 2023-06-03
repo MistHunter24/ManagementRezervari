@@ -152,7 +152,7 @@ stories:
   - action: utter_submit
   - action: utter_saved_appointment_form
 
-- story: interactive_story_1
+- story: interactive_book_appointment_3
   steps:
   - intent: book_appointment
   - action: appointment_form
