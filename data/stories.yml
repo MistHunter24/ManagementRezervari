@@ -66,49 +66,123 @@ stories:
   - action: utter_submit
   - action: utter_saved_name
 
-- story: Preliminary_questions_form validation
-  steps:
-  - intent: programare
-  - action: preliminary_questions_form
-  - active_loop: preliminary_questions_form
+
+- story: Book appointment
+  steps: 
+  - intent: book_appointment
+  - action: appointment_form
+  - active_loop: appointment_form
   - slot_was_set:
-    - requested_slot: gender
+    - requested_slot: date
   - slot_was_set:
-    - gender: masculin
+    - requested_slot: time
   - slot_was_set:
-    - gender: masculin
+    - requested_slot: doctor
   - slot_was_set:
-    - requested_slot: age
-  - slot_was_set:
-    - age: '29'
-  - slot_was_set:
-    - age: '29'
-  - slot_was_set:
-    - requested_slot: weight_risk
-  - slot_was_set:
-    - weight_risk: nu
-  - slot_was_set:
-    - weight_risk: false
-  - slot_was_set:
-    - requested_slot: hypertension
-  - slot_was_set:
-    - hypertension: da
-  - slot_was_set:
-    - hypertension: true
-  - slot_was_set:
-    - requested_slot: smoker
-  - slot_was_set:
-    - smoker: yes
-  - slot_was_set:
-    - smoker: true
-  - slot_was_set:
-    - requested_slot: recent_lesions
-  - slot_was_set:
-    - recent_lesions: nu
-  - slot_was_set:
-    - recent_lesions: false
+    - requested_slot: department 
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
   - action: utter_submit
-  - action: utter_saved_preliminary_questions
+  - action: utter_saved_appointment_form
+
+- story: interactive_book_appointment_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: book_appointment
+    entities:
+    - date: '12.06'
+    - time: '6'
+    - doctor: dr. Matei Florescu
+    - department: cardiologie
+  - slot_was_set:
+    - date: '12.06'
+  - slot_was_set:
+    - time: '6'
+  - slot_was_set:
+    - doctor: dr. Matei Florescu
+  - slot_was_set:
+    - department: cardiologie
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - date: '12.06'
+  - slot_was_set:
+    - time: '6'
+  - slot_was_set:
+    - doctor: dr. Matei Florescu
+  - slot_was_set:
+    - department: cardiologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_appointment_form
+  - intent: thank_you
+  - action: utter_you_are_welcome
+  
+
+- story: interactive_book_appointment_2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: book_appointment
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - requested_slot: date
+  - slot_was_set:
+    - date: '24.03'
+  - slot_was_set:
+    - requested_slot: time
+  - slot_was_set:
+    - time: 12:30
+  - slot_was_set:
+    - requested_slot: doctor
+  - slot_was_set:
+    - doctor: dr. Barbu
+  - slot_was_set:
+    - requested_slot: department
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_appointment_form
+
+- story: interactive_story_1
+  steps:
+  - intent: book_appointment
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - requested_slot: date
+  - slot_was_set:
+    - date: '24.06'
+  - slot_was_set:
+    - date: 24-06-2024
+  - slot_was_set:
+    - requested_slot: time
+  - slot_was_set:
+    - time: '12'
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - requested_slot: doctor
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - requested_slot: department
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_appointment_form

@@ -16,6 +16,14 @@ nlu:
     - buna ziua
     - masculin
     - 29
+- intent: thank_you
+  examples: |
+    - Merci
+    - Multu
+    - Thx
+    - Multumesc frumos
+    - Merci frumos
+    - Multumesc
 - intent: goodbye
   examples: |
     - o zi bună
@@ -65,8 +73,15 @@ nlu:
     - să-ți zic cum mă cheamă?
     - sa-mi stii numele?
     - sa-ti spun numele
-- intent: programare
+- intent: book_appointment
   examples: |
+    - Aș vrea să mă programez pe data de [24.05](date) la ora [12](time)
+    - Vreau să mă programez pe [01.12](date) ora [11:30](time)
+    - Programare pentru [03.01](date) ora [9](time)
+    - Aveți loc pentru [04.11](date) la [5](time)?
+    - Vreau să vin la domnul [dr. Marcel Ion](doctor)
+    - Este loc la domnul [dr. Florin Constantin](doctor) pe [03.03](date) la ora [12](time)?
+    - as vrea sa ma programez pe [12.06](date) la ora [6](time), la [dr. Matei Florescu](doctor) [cardiologie](department)
     - aș vrea să fac o programare
     - vreau să mă programez
     - programare
@@ -77,4 +92,65 @@ nlu:
     - caut un doctor
     - vreau să văd un doctor
     - vreau să mă vadă un doctor
-
+    - as vrea o programare
+    - vreau sa ma programez
+    - doctor [Mateescu](doctor)
+- intent: cancel_appointment
+  examples: |
+    - Aș vrea să anulez programarea de pe [21.03](date) de la ora [5](time)
+    - Anulez pe [4.05](date) ora [15](time)
+    - Vreau să anulez pentru [02.12](date) la [18](time)
+    - Nu mai pot să ajung pe [13](date) la [8](time)
+    - Aș vrea să anulez cu [dr. Popescu Iulian](doctor) pe [12.04](date) de la ora [11](time)
+    - Nu pot ajunge la [dr. Mateescu Matei](doctor) pe [01.01](date) ora [09](time)
+- intent: select_department
+  examples: |
+    - [Cardiologie](department)
+    - [Dermatologie](department)
+    - [Ortopedie](department)
+    - [Pediatrie](department)
+    - [Neurologie](department)
+    - [Medicina Generala](department)
+    - [Oftalmologie](department)
+    - [Oftalmologie](department)
+- intent: select_doctor
+  examples: |
+    - [dr. Mateescu](doctor)
+    - [dr. Marcel Ion](doctor)
+    - [Dr. Mihaela Stan](doctor)
+    - D-na [dr. Iuliana Florin](doctor)
+    - D-nul [dr. Stelian Cercel](doctor)
+    - Dnu [dr. Mihai Enache](doctor)
+    - [Barbu Marian](doctor)
+    - [dr. Barbu](doctor)
+- intent: select_date
+  examples: |
+    - pe data de [02.12](date)
+    - in [15.5](date)
+    - pe [13 mai](date)
+    - [12 februarie](date)
+    - [2 august](date)
+    - [12-04-2023](date)
+    - [11-01](date)
+    - [05.03.2023](date)
+    - [23/11/1999](date)
+    - data de [24.03](date)
+- intent: select_time
+  examples: |
+    - ora [12](time)
+    - la [11](time)
+    - pe la [3pm](time)
+    - in jur de [12](time)
+    - [1:30](time)
+    - [14:03](time)
+    - [1:23 pm](time)
+    - [12:30](time)
+    - [1 pm](time)
+    - [1pm](time)
+    - [3 am](time)
+    - [3am](time)
+    - [23](time)
+    - [12](time)
+    - ora [1](time)
+    - [24.06](date)
+    - ora [12](time)

@@ -29,19 +29,18 @@ rules:
   - action: utter_submit
   - action: utter_saved_name
 
-- rule: Activate preliminary_questions_form
-  steps:
-  - intent: programare
-  - action: preliminary_questions_form
-  - active_loop: preliminary_questions_form
 
-- rule: Submit preliminary_questions_form
-  condition:
-  - active_loop: preliminary_questions_form
+- rule: Activate appointment_form
   steps:
-  - action: preliminary_questions_form
+  - intent: book_appointment
+  - action: appointment_form
+  - active_loop: appointment_form
+- rule: Ssaubmit appointment_form
+  condition:
+  - active_loop: appointment_form
+  steps:
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: utter_submit
-  - action: utter_saved_preliminary_questions
+  - action: utter_saved_appointment_form
