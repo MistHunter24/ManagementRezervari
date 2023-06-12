@@ -10,6 +10,7 @@ intents:
 - deny
 - goodbye
 - greet
+- name_form
 - request_names
 - select_date
 - select_department
@@ -17,10 +18,12 @@ intents:
 - select_time
 - thank_you
 entities:
+- first_name
 - department
+- last_name
 - date
-- doctor
 - time
+- doctor
 forms:
   name_form:
     required_slots:
@@ -33,7 +36,7 @@ forms:
     - weight_risk
     - hypertension
     - smoker
-    - recent_lesions
+    - recent_surgeries
   appointment_form:
     required_slots:
     - date
@@ -43,20 +46,16 @@ forms:
 slots:
   first_name:
     type: text
-    influence_conversation: true
+    influence_conversation: false
     mappings:
-    - type: from_text
-      conditions:
-      - active_loop: name_form
-        requested_slot: first_name
+    - type: from_entity
+      entity: first_name
   last_name:
     type: text
     influence_conversation: false
     mappings:
-    - type: from_text
-      conditions:
-      - active_loop: name_form
-        requested_slot: last_name
+    - type: from_entity
+      entity: last_name
   gender:
     type: text
     influence_conversation: false
@@ -97,14 +96,14 @@ slots:
       conditions:
       - active_loop: preliminary_questions_form
         requested_slot: smoker
-  recent_lesions:
+  recent_surgeries:
     type: bool
     influence_conversation: false
     mappings:
     - type: from_text
       conditions:
       - active_loop: preliminary_questions_form
-        requested_slot: recent_lesions
+        requested_slot: recent_surgeries
   date:
     type: text
     influence_conversation: false
@@ -129,6 +128,18 @@ slots:
     mappings:
     - type: from_entity
       entity: department
+  slot_ask_for_second_form:
+    type: bool
+    influence_conversation: true
+    mappings:
+    - type: custom
+      action: action_check_appointment_form_filled
+  slot_ask_for_third_form:
+    type: bool
+    influence_conversation: true
+    mappings:
+    - type: custom
+      action: preliminary_questions_form
 responses:
   utter_greet:
   - text: Bună ziua! Cu ce vă pot ajuta?
@@ -162,8 +173,8 @@ responses:
   - text: Aveți hipertensiune arterială?
   utter_ask_smoker:
   - text: Sunteți fumător?
-  utter_ask_recent_lesions:
-  - text: Ați suferit recent o leziune?
+  utter_ask_recent_surge:
+  - text: Ați suferit recent o operatie?
   utter_saved_preliminary_questions:
   - text: |
       Sunt corecte informațiile? 
@@ -172,7 +183,7 @@ responses:
       Supraponderal/obez - {weight_risk},
       Hipertensiune - {hypertension},
       Fumator - {smoker},
-      Leziuni - {recent_lesions}
+      Operatii recente - {recent_surgeries}
   utter_ask_refferal:
   - text: Aveți bilet de trimitere?
   utter_ask_date:
@@ -184,11 +195,15 @@ responses:
   utter_ask_department:
   - text: Care este specializarea medicală care vă interesează?
   utter_saved_appointment_form:
-  - text: Sunteti programat pe data {date}, la ora {time}, la domnul/doamna {doctor} de la departamentul {department}.
+  - text: Veți fi programat pe data {date}, la ora {time}, la domnul/doamna {doctor} de la departamentul {department}.
+  utter_ask_additional_info1:
+  - text: Înainte de a trimite programarea, vă voi adresa cateva intrebări suplimentare:"
+  utter_ask_additional_info2:
+  - text: Înca 2-3 întrebări
 actions:
-- action_book_appointment
-- action_cancel_appointment
-- action_validate_appointment
+- action_check_appointment_form_filled
+- action_check_extra_details_form_filled
+- utter_ask_additional_info1
 - utter_ask_how_can_I_help
 - utter_goodbye
 - utter_greet
@@ -199,3 +214,4 @@ actions:
 - utter_you_are_welcome
 - validate_appointment_form
 - validate_name_form
+- validate_preliminary_questions_form

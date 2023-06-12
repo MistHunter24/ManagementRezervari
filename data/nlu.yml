@@ -95,6 +95,8 @@ nlu:
     - as vrea o programare
     - vreau sa ma programez
     - doctor [Mateescu](doctor)
+    - programare pe [12.05](date) ora [12](time) la [Cardiologie](department), dr [Mateescu](doctor)
+    - programare la ora [12](time), pe data de [07.09](date), dr [Mateescu](doctor), [Cardiologie](department)
 - intent: cancel_appointment
   examples: |
     - Aș vrea să anulez programarea de pe [21.03](date) de la ora [5](time)
@@ -111,7 +113,6 @@ nlu:
     - [Pediatrie](department)
     - [Neurologie](department)
     - [Medicina Generala](department)
-    - [Oftalmologie](department)
     - [Oftalmologie](department)
 - intent: select_doctor
   examples: |
@@ -153,4 +154,66 @@ nlu:
     - [12](time)
     - ora [1](time)
     - [24.06](date)
-    - ora [12](time)
+- intent: name_form
+  examples: |
+    - Ma numesc [Mircea](first_name) [Dumitrescu](last_name)
+    - Ma cheama [Maria](first_name) [Popescu](last_name)
+    - [Mircea](first_name) [Dumitrescu](last_name)
+    - [Ionescu](last_name)
+    - [Florin](first_name)
+    - Ma cheama [Ana](first_name)
+    - Ma numesc [Cristina](first_name)
+    - [Mircea](first_name)
+    - [Dumitrescu](last_name)
+    - [Mircea](first_name)
+    - [Dumitrescu](last_name)
+
+- intent: gender
+  examples: |
+    - [barbat](gender)
+    - sunt [barbat](gender)
+    - [femeie](gender)
+    - sunt [femeie](gender)
+    - gen [masculin](gender)
+    - [masculin](gender)
+    - gen [feminin](gender)
+    - [feminin](gender)
+- intent: age
+  examples: |
+    - am [53](age) ani
+    - sunt de [29](age) ani
+    - [77](age) ani
+    - [34](age)
+- intent: weight_risk
+  examples: |
+    - [nu](weight_risk) sunt obez
+    - [da](weight_risk) sunt supraponderal
+    - [nu](weight_risk) sunt gras
+    - [da](weight_risk) am 120 kg
+    - [nu](weight_risk) sunt mai mare doar
+    - [nu](weight_risk) sunt
+    - [da](weight_risk) sunt
+- intent: hypertension
+  examples: |
+    - [nu](hypertension) am hipertensiune
+    - [da](hypertension) am hipertensiune
+    - [nu](hypertension) am 
+    - [nu](hypertension) sunt hipertensiv
+    - [da](hypertension), sunt hipertensiv
+    - [da](hypertension), am
+- intent: smoker
+  examples: |
+    - [da](smoker) fumez
+    - [nu](smoker) fumez
+    - [da](smoker), sunt fumator
+    - [nu](smoker) sunt fumator
+- intent: recent_surgeries
+  examples: |
+    - [da](recent_surgeries), am suferit
+    - [nu](recent_surgeries) am rani recente
+    - [da](recent_surgeries) am leziuni recente
+    - [nu](recent_surgeries)
+    - [da](recent_surgeries)
+    - am, [da](recent_surgeries)
+    - [da](recent_surgeries), am
+

@@ -152,6 +152,7 @@ stories:
   - action: utter_submit
   - action: utter_saved_appointment_form
 
+
 - story: interactive_book_appointment_3
   steps:
   - intent: book_appointment
@@ -186,3 +187,170 @@ stories:
   - active_loop: null
   - action: utter_submit
   - action: utter_saved_appointment_form
+
+
+- story: Name after appointment
+  steps:
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+
+- story: interactive_story_1
+  steps:
+  - intent: book_appointment
+    entities:
+    - date: '12.05'
+    - time: '12'
+    - department: Cardiologie
+    - doctor: Mateescu
+  - slot_was_set:
+    - date: '12.05'
+  - slot_was_set:
+    - time: '12'
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - date: 12-05-2024
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - slot_was_set:
+    - date: 12-05-2024
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_appointment_form
+  - action: utter_ask_additional_info1
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - date: '12.05'
+  - slot_was_set:
+    - time: '12'
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_name
+
+- story: interactive_story_1
+  steps:
+  - intent: book_appointment
+    entities:
+    - time: '12'
+    - date: '07.09'
+    - doctor: Mateescu
+    - department: Cardiologie
+  - slot_was_set:
+    - date: '07.09'
+  - slot_was_set:
+    - time: '12'
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - date: 07-09-2023
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - slot_was_set:
+    - date: 07-09-2023
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_appointment_form
+  - action: utter_ask_additional_info1
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - date: '07.09'
+  - slot_was_set:
+    - time: '12'
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_name
+
+- story: Additional questions after appointment
+  steps:
+  - action: action_check_extra_details_form_filled
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form

@@ -14,7 +14,7 @@ rules:
 
 - rule: Activate name_form
   steps:
-  - intent: request_names
+  - action: action_ask_name_form
   - action: name_form
   - active_loop: name_form
 
@@ -35,12 +35,14 @@ rules:
   - intent: book_appointment
   - action: appointment_form
   - active_loop: appointment_form
-- rule: Ssaubmit appointment_form
+
+
+
+- rule: Fill the name_form
   condition:
   - active_loop: appointment_form
   steps:
+  - action: action_check_appointment_form_filled
   - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_submit
-  - action: utter_saved_appointment_form
+  - action: name_form
+  - active_loop: name_form
