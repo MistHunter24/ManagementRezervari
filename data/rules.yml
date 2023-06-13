@@ -14,7 +14,7 @@ rules:
 
 - rule: Activate name_form
   steps:
-  - action: action_ask_name_form
+  - intent: request_names
   - action: name_form
   - active_loop: name_form
 
@@ -28,6 +28,7 @@ rules:
     - requested_slot: null
   - action: utter_submit
   - action: utter_saved_name
+  wait_for_user_input: false
 
 
 - rule: Activate appointment_form
@@ -46,3 +47,4 @@ rules:
   - active_loop: null
   - action: name_form
   - active_loop: name_form
+  wait_for_user_input: false

@@ -49,7 +49,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
         date_format3 = "%d.%m"  # Date format: DD.MM
 
         if not slot_value:
-            dispatcher.utter_message("Please provide a date.")
+            dispatcher.utter_message("Vă rog să introduceți o dată")
             return {"date": None}
         try:
             # Try parsing date using format1
@@ -69,7 +69,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
                     # Try parsing date using format3
                     parsed_date = datetime.strptime(user_date, date_format3)
                     input_month = parsed_date.month
-                    if input_month > current_month:
+                    if input_month >= current_month:
                         validated_date = f"{parsed_date.day:02d}-{parsed_date.month:02d}-{current_year}"
                     else:
                         validated_date = f"{parsed_date.day:02d}-{parsed_date.month:02d}-{current_year + 1}"
@@ -77,7 +77,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
 
                 except ValueError:
                     # Invalid date format
-                    dispatcher.utter_message("Invalid date format. Please provide a date in the format YYYY-MM-DD, DD/MM/YYYY, or DD.MM.")
+                    dispatcher.utter_message("Format invalid. Vă rugăm sa introduceți data sub următoarele forme: YYYY-MM-DD, DD/MM/YYYY, or DD.MM.")
                     return {"date": None}
                 
     def validate_time(
@@ -93,7 +93,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
         time_format_3 = "%H"  # Time format: HH
 
         if not slot_value:
-            dispatcher.utter_message("Please provide a time.")
+            dispatcher.utter_message("Vă rog să introduceți ora")
             return {"time": None}
         try:
              # Try parsing time_format_1
@@ -101,7 +101,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
             converted_time = parsed_time.strftime("%I:%M %p")
 
             if not is_office_hours(converted_time):
-                dispatcher.utter_message("Office hours are from 9 AM to 5 PM. Please provide a time within office hours.")
+                dispatcher.utter_message("Orele de muncă sunt între 9-17. Vă rog să introduceți o oră în acest interval.")
                 return {"time": None}
 
             return {"time": converted_time}
@@ -113,7 +113,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
                 parsed_time = datetime.strptime(user_time, time_format_2).time()
                 converted_time = parsed_time.strftime("%H:%M")
                 if not is_office_hours(converted_time):
-                    dispatcher.utter_message("Office hours are from 9 AM to 5 PM. Please provide a time within office hours.")
+                    dispatcher.utter_message("Orele de muncă sunt între 9-17. Vă rog să introduceți o oră în acest interval.")
                     return {"time": None}
 
                 return {"time": converted_time}
@@ -124,14 +124,14 @@ class ValidationBookAppointmentForm(FormValidationAction):
                     parsed_time = datetime.strptime(user_time, time_format_3).time()
                     converted_time = parsed_time.replace(minute=0).strftime("%H:%M")
                     if not is_office_hours(converted_time):
-                        dispatcher.utter_message("Office hours are from 9 AM to 5 PM. Please provide a time within office hours.")
+                        dispatcher.utter_message("Orele de muncă sunt între 9-17. Vă rog să introduceți o oră în acest interval.")
                         return {"time": None}
 
                     return {"time": converted_time}
 
                 except ValueError:
                     # Invalid time format
-                    dispatcher.utter_message("Invalid time format. Please provide a time in the format HH:MM AM/PM, HH:MM, or HH.")
+                    dispatcher.utter_message("Format invalid. Vă rugăm sa introduceți ora sub următoarele forme HH:MM AM/PM, HH:MM, or HH.")
                     return {"time": None}
                 
     def validate_doctor(
@@ -142,7 +142,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         if not slot_value:
-            dispatcher.utter_message("Please provide the name of the doctor.")
+            dispatcher.utter_message("Vă rugăm să introduceți numele medicului dorit.")
             return {"doctor": None}
 
         cleaned_name = remove_common_prefixes(slot_value)
@@ -159,12 +159,12 @@ class ValidationBookAppointmentForm(FormValidationAction):
         department_list = ["cardiologie", "dermatologie", "ortopedie", "pediatrie", "neurologie", "medicina generala", "oftalmologie"]
         
         if not slot_value:
-            dispatcher.utter_message("Please provide the name of the department.")
+            dispatcher.utter_message("Vă rugăm să introduceți numele departmentului.")
             return {"department": None}
         
         if slot_value.lower() not in department_list:
             dispatcher.utter_message(
-                "Invalid department selected. Please select a department from the provided list."
+                "Departament invalid selectat. Puteți alege doar între: Cardiologie, Dermatologie, Ortopedie, Pediatrie, Neurologie, Medicina generala, Oftalmologie"
             )
             return {"department": None}
 
@@ -251,12 +251,10 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(weight_risk) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
             return{"weight_risk":None}
-        if intent == "weight_risk ":
-            substring = "da"
-            if substring in weight_risk:
-                return{"weight_risk": True}
-            else:
-                return{"weight_risk": False} 
+        if intent == "affirm":
+            return{"weight_risk": True}
+        elif intent == "deny":
+            return{"weight_risk": False} 
         return{"weight_risk":weight_risk}
     
     def validate_hypertension(self,
@@ -271,12 +269,10 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(hypertension) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
             return{"hypertension":None}
-        if intent == "hypertension":
-            substring = "da"
-            if substring in hypertension:
-                return{"hypertension": True}
-            else:
-                return{"hypertension": False}
+        if intent == "affirm":
+            return{"hypertension": True}
+        elif intent == "deny":
+            return{"hypertension": False}
         return{"hypertension":hypertension}
     
     def validate_smoker(self,
@@ -291,12 +287,10 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(smoker) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
             return{"smoker":None}
-        if intent == "smoker":
-            substring = "da"
-            if substring in smoker:
-                return{"smoker": True}
-            else:
-                return{"smoker": False}
+        if intent == "affirm":
+            return{"smoker": True}
+        elif intent == "deny":
+            return{"smoker": False}
         return{"smoker":smoker}    
         
     def validate_recent_surgeries(self,
@@ -311,12 +305,10 @@ class ValidationPreliminaryQuestionForm(FormValidationAction):
         if len(recent_surgeries) == 0:
             dispatcher.utter_message(text = "Vă rog să răspundeți cu DA sau NU")
             return{"recent_surgeries":None}
-        elif intent == "recent_surgeries":
-            substring = "da"
-            if substring in recent_surgeries:
-                return{"recent_surgeries": True}
-            else:
-                return{"recent_surgeries": False}
+        if intent == "affirm":
+            return{"recent_surgeries": True}
+        elif intent == "deny":
+            return{"recent_surgeries": False}
         return{"recent_surgeries":recent_surgeries}  
     
 class CheckAppointmentFormFilled(Action):
@@ -326,7 +318,7 @@ class CheckAppointmentFormFilled(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         appointment_slots = ["date", "time", "doctor", "department"]
         if all(tracker.get_slot(slot) for slot in appointment_slots):
-            dispatcher.utter_message("utter_ask_additional_info1")
+            # dispatcher.utter_message("utter_ask_additional_info1")
             return [SlotSet("slot_ask_for_second_form", True)]
         else:
             # First form is not filled yet
@@ -338,7 +330,7 @@ class CheckExtraDetailsFormFilled(Action):
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         if (tracker.get_slot("slot_ask_for_second_form")== True):
-            dispatcher.utter_message("utter_ask_additional_info2")
+            # dispatcher.utter_message("utter_ask_additional_info2")
             return [SlotSet("slot_ask_for_third_form", True)]
         else:
             # Appointment form is not filled yet

@@ -354,3 +354,129 @@ stories:
     - slot_ask_for_third_form: true
   - action: preliminary_questions_form
   - active_loop: preliminary_questions_form
+
+- story: Story with 3 forms one after another
+  steps:
+  - intent: book_appointment
+    entities:
+    - date: '12.07'
+    - time: '12'
+    - doctor: Mateescu
+    - department: Oftalmologie
+  - slot_was_set:
+    - date: '12.07'
+  - slot_was_set:
+    - time: '12'
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - slot_was_set:
+    - slot_ask_for_third_form: false
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - date: 12-07-2023
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - slot_was_set:
+    - date: 12-07-2023
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_appointment_form
+  - action: utter_ask_additional_info1
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - date: '12.07'
+  - slot_was_set:
+    - time: '12'
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit
+  - action: utter_saved_name
+  - action: action_check_extra_details_form_filled
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - requested_slot: gender
+  - slot_was_set:
+    - gender: masculin
+  - slot_was_set:
+    - gender: masculin
+  - slot_was_set:
+    - requested_slot: age
+  - slot_was_set:
+    - age: 29 ani
+  - slot_was_set:
+    - age: '29'
+  - slot_was_set:
+    - requested_slot: weight_risk
+  - slot_was_set:
+    - weight_risk: da
+  - slot_was_set:
+    - weight_risk: true
+  - slot_was_set:
+    - requested_slot: hypertension
+  - slot_was_set:
+    - hypertension: da
+  - slot_was_set:
+    - hypertension: true
+  - slot_was_set:
+    - requested_slot: smoker
+  - slot_was_set:
+    - smoker: nu
+  - slot_was_set:
+    - smoker: false
+  - slot_was_set:
+    - requested_slot: recent_surgeries
+  - slot_was_set:
+    - recent_surgeries: da
+  - slot_was_set:
+    - recent_surgeries: da
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - intent: affirm

@@ -17,13 +17,17 @@ intents:
 - select_doctor
 - select_time
 - thank_you
+- gender
+- age
 entities:
-- first_name
-- department
 - last_name
+- doctor
 - date
 - time
-- doctor
+- department
+- first_name
+- gender
+- age
 forms:
   name_form:
     required_slots:
@@ -139,7 +143,7 @@ slots:
     influence_conversation: true
     mappings:
     - type: custom
-      action: preliminary_questions_form
+      action: action_check_extra_details_form_filled
 responses:
   utter_greet:
   - text: Bună ziua! Cu ce vă pot ajuta?
