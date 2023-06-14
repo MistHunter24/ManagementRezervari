@@ -3,11 +3,10 @@ from typing import Text, List, Any, Dict
 from rasa_sdk import Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
-from datetime import datetime, date
+from datetime import datetime, date, time
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, ActiveLoop
 import re
-from datetime import datetime, time
 from database_connection import DbReservationSave
 
 def clean_text(form_text):
@@ -71,9 +70,9 @@ class ValidationBookAppointmentForm(FormValidationAction):
                     parsed_date = datetime.strptime(user_date, date_format3)
                     input_month = parsed_date.month
                     if input_month >= current_month:
-                        validated_date = f"{parsed_date.day:02d}-{parsed_date.month:02d}-{current_year}"
+                        validated_date = f"{current_year}-{parsed_date.month:02d}-{parsed_date.day:02d}"
                     else:
-                        validated_date = f"{parsed_date.day:02d}-{parsed_date.month:02d}-{current_year + 1}"
+                        validated_date = f"{current_year + 1}-{parsed_date.month:02d}-{parsed_date.day:02d}"
                     return {"date": validated_date}
 
                 except ValueError:
