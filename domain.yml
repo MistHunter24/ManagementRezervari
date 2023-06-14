@@ -177,11 +177,11 @@ responses:
   - text: Aveți hipertensiune arterială?
   utter_ask_smoker:
   - text: Sunteți fumător?
-  utter_ask_recent_surge:
+  utter_ask_recent_surgeries:
   - text: Ați suferit recent o operatie?
   utter_saved_preliminary_questions:
   - text: |
-      Sunt corecte informațiile? 
+      Mulțumesc, am salvat: 
       Sex - {gender},
       Vârsta - {age},
       Supraponderal/obez - {weight_risk},
@@ -207,6 +207,7 @@ responses:
 actions:
 - action_check_appointment_form_filled
 - action_check_extra_details_form_filled
+- action_save_in_database
 - utter_ask_additional_info1
 - utter_ask_how_can_I_help
 - utter_goodbye
@@ -216,6 +217,7 @@ actions:
 - utter_saved_name
 - utter_submit
 - utter_you_are_welcome
+- utter_saved_preliminary_questions
 - validate_appointment_form
 - validate_name_form
 - validate_preliminary_questions_form

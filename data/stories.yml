@@ -433,6 +433,7 @@ stories:
   - active_loop: null
   - action: utter_submit
   - action: utter_saved_name
+  - action: utter_ask_additional_info2
   - action: action_check_extra_details_form_filled
   - slot_was_set:
     - slot_ask_for_third_form: true
@@ -479,4 +480,6 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
-  - intent: affirm
+  - action: utter_submit
+  - action: utter_saved_preliminary_questions
+  - action: action_save_in_database

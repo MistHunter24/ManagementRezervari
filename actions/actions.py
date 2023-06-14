@@ -8,6 +8,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, ActiveLoop
 import re
 from datetime import datetime, time
+from database_connection import DbReservationSave
 
 def clean_text(form_text):
     return "".join([c for c in form_text if c.isalpha()])
@@ -336,3 +337,144 @@ class CheckExtraDetailsFormFilled(Action):
             # Appointment form is not filled yet
             return [SlotSet("slot_ask_for_third_form", False)]
         
+class SaveAppointmentInDatabase(Action):
+    def name(self)-> Text:
+        return "action_save_in_database"
+    
+    
+    def run(self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        
+        connection = DbReservationSave()    
+        cursor = connection.cursor()
+        if self.allSlotsFilled(tracker):
+            
+            # dbs = DbReservationSave.execute('show databases')
+            createPatientsTable = """CREATE TABLE IF NOT EXISTS patients(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, first_name varchar(255), last_name varchar(255))"""
+            createDoctorsTable = """CREATE TABLE IF NOT EXISTS doctors(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, doctor_name varchar(255))"""
+            createPatientExtraInfo = """CREATE TABLE IF NOT EXISTS patients_extra_info(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_id INT, gender varchar(255), age INT, weight_risk varchar(255), hypertension varchar(255), smoker varchar(255), recent_surgeries varchar(255), FOREIGN KEY (patient_id) REFERENCES patients(id))"""
+            createSpecialtiesTable = """CREATE TABLE IF NOT EXISTS medical_specialties(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, specialty varchar(255))"""
+            createAppointmentsTable = """CREATE TABLE IF NOT EXISTS appointments(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_id INT, date DATE, time TIME, doctor_id INT, specialty_id INT, FOREIGN KEY (patient_id) REFERENCES patients(id), FOREIGN KEY (specialty_id) REFERENCES medical_specialties(id))"""
+            
+        
+            cursor.execute(createPatientsTable)
+            connection.commit()
+
+            cursor.execute(createDoctorsTable)
+            connection.commit()
+
+            cursor.execute(createPatientExtraInfo)
+            connection.commit()
+
+            cursor.execute(createSpecialtiesTable)
+            connection.commit()
+
+            cursor.execute(createAppointmentsTable)
+            connection.commit()
+
+            # Extract from slots
+            first_name = tracker.get_slot('first_name')
+            last_name = tracker.get_slot('last_name')
+            gender = tracker.get_slot('gender')
+            age = tracker.get_slot('age')
+            weight_risk = tracker.get_slot('weight_risk')
+            hypertension = tracker.get_slot('hypertension')
+            smoker = tracker.get_slot('smoker')
+            recent_surgeries = tracker.get_slot('recent_surgeries')
+            date = tracker.get_slot('date')
+            time = tracker.get_slot('time')
+            doctor = tracker.get_slot('doctor')
+            department = tracker.get_slot('department')
+
+            # Insert data into the 'patients' table
+            insert_patient_query = """
+            INSERT INTO patients (first_name, last_name)
+            VALUES (%s, %s)
+            """
+            patient_data = (first_name, last_name)
+            cursor.execute(insert_patient_query, patient_data)
+            connection.commit()
+
+            # Retrieve the auto-generated patient_id
+            patient_id = cursor.lastrowid
+
+            # Insert data into the 'patients_extra_info' table
+            insert_extra_info_query = """
+            INSERT INTO patients_extra_info (patient_id, gender, age, weight_risk, hypertension, smoker, recent_surgeries)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """
+            extra_info_data = (patient_id, gender, age, weight_risk, hypertension, smoker, recent_surgeries)
+            cursor.execute(insert_extra_info_query, extra_info_data)
+            connection.commit()
+
+            # Check if the doctor already exists
+            select_doctor_query = "SELECT id FROM doctors WHERE doctor_name = %s"
+            cursor.execute(select_doctor_query, (doctor,))
+            existing_doctor = cursor.fetchone()
+
+            if existing_doctor:
+                # Doctor already exists, retrieve the doctor_id
+                doctor_id = existing_doctor[0]
+            else:
+                # Insert data into the 'doctors' table
+                insert_doctor_query = """
+                INSERT INTO doctors (doctor_name)
+                VALUES (%s)
+                """
+                cursor.execute(insert_doctor_query, (doctor,))
+                connection.commit()
+
+                # Retrieve the auto-generated doctor_id
+                doctor_id = cursor.lastrowid
+
+            # Check if the specialty already exists
+            select_specialty_query = "SELECT id FROM medical_specialties WHERE specialty = %s"
+            cursor.execute(select_specialty_query, (department,))
+            existing_specialty = cursor.fetchone()
+
+            if existing_specialty:
+                # Specialty already exists, retrieve the specialty_id
+                specialty_id = existing_specialty[0]
+            else:
+                # Insert data into the 'medical_specialties' table
+                insert_specialty_query = """
+                INSERT INTO medical_specialties (specialty)
+                VALUES (%s)
+                """
+                cursor.execute(insert_specialty_query, (department,))
+                connection.commit()
+
+                # Retrieve the auto-generated specialty_id
+                specialty_id = cursor.lastrowid
+
+            # Insert data into the 'appointments' table
+            insert_appointment_query = """
+            INSERT INTO appointments (patient_id, date, time, doctor_id, specialty_id)
+            VALUES (%s, %s, %s, %s, %s)
+            """
+            appointment_data = (patient_id, date, time, doctor_id, specialty_id)
+            cursor.execute(insert_appointment_query, appointment_data)
+            connection.commit()
+
+            # Close the DbReservationSave and the connection
+            cursor.close()
+            connection.close()
+
+            dispatcher.utter_message("Programare salvată cu succes.")
+        else:
+            dispatcher.utter_message("A apărut o eroare.")
+
+        return []
+    
+    def allSlotsFilled(self, tracker: Tracker) -> bool:
+        required_slots = ['first_name', 'last_name', 'gender', 'age', 'weight_risk', 'hypertension',
+                          'recent_surgeries', 'date', 'time', 'doctor', 'department']
+
+        for slot_name in required_slots:
+            if tracker.get_slot(slot_name) is None:
+                return False
+
+        return True

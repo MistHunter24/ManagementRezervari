@@ -14,9 +14,6 @@ nlu:
     - ciao
     - servus
     - buna ziua
-    - masculin
-    - 29
-    - [masculin](gender)
 
 - intent: thank_you
   examples: |
@@ -175,6 +172,10 @@ nlu:
     - [Gheorghe](last_name)
     - [Mircea](first_name)
     - [Dumitrescu](last_name)
+    - [Costescu](last_name)
+    - [Iliescu](last_name)
+    - [Cristescu](last_name)
+    - [Mihai](first_name) [Gavrila](last_name)
 - intent: gender
   examples: |
     - [barbat](gender)
