@@ -14,7 +14,6 @@ nlu:
     - ciao
     - servus
     - buna ziua
-
 - intent: thank_you
   examples: |
     - Merci
@@ -34,7 +33,7 @@ nlu:
     - papa
     - pa
     - a
-  
+    - o zi buna
 - intent: affirm
   examples: |
     - da
@@ -98,14 +97,21 @@ nlu:
     - programare pe [12.05](date) ora [12](time) la [Cardiologie](department), dr [Mateescu](doctor)
     - programare la ora [12](time), pe data de [07.09](date), dr [Mateescu](doctor), [Cardiologie](department)
     - as vrea sa ma programez pe [12.07](date) la ora [12](time), la dr [Mateescu](doctor), [Oftalmologie](department)
+    - as vrea sa ma programez pe [12.07](date) la ora [12](time) la dr [Mateescu](doctor), [Oftalmologie](department)
+    - as vrea sa ma programez pe [12.07](date) la ora [14](time), la dr [Mateescu](doctor), [oftalmologie](department)
+    - as vrea sa ma programez pe [12.07](date)
+    - as vrea sa ma programez pe [12/12/2023](date)
+    - ora [12](time), la Dr [Mateescu](doctor), [oftalmologie](department)
 - intent: cancel_appointment
   examples: |
-    - Aș vrea să anulez programarea de pe [21.03](date) de la ora [5](time)
-    - Anulez pe [4.05](date) ora [15](time)
-    - Vreau să anulez pentru [02.12](date) la [18](time)
+    - Aș vrea să [anulez](cancel) programarea de pe [21.03](date) de la ora [5](time)
+    - [anulez](cancel) pe [4.05](date) ora [15](time)
+    - Vreau să [anulez](cancel) pentru [02.12](date) la [18](time)
     - Nu mai pot să ajung pe [13](date) la [8](time)
-    - Aș vrea să anulez cu [dr. Popescu Iulian](doctor) pe [12.04](date) de la ora [11](time)
+    - Aș vrea să [anulez](cancel) cu [dr. Popescu Iulian](doctor) pe [12.04](date) de la ora [11](time)
     - Nu pot ajunge la [dr. Mateescu Matei](doctor) pe [01.01](date) ora [09](time)
+    - vreau sa [anulez](cancel) o programare
+    - nu pot ajunge pe [2023-07-22](date) la ora [14](time)
 - intent: select_department
   examples: |
     - [Cardiologie](department)
@@ -115,6 +121,7 @@ nlu:
     - [Neurologie](department)
     - [Medicina Generala](department)
     - [Oftalmologie](department)
+    - [Pediatrie](department)
 - intent: select_doctor
   examples: |
     - [dr. Mateescu](doctor)
@@ -127,6 +134,7 @@ nlu:
     - [dr. Barbu](doctor)
     - dr [Ifrim](doctor)
     - [dr Tache](doctor)
+    - [Enache](doctor)
 - intent: select_date
   examples: |
     - pe data de [02.12](date)
@@ -139,6 +147,9 @@ nlu:
     - [05.03.2023](date)
     - [23/11/1999](date)
     - data de [24.03](date)
+    - [2023-07-23](date)
+    - [2023-12-12](date)
+    - [2023-07-22](date)
 - intent: select_time
   examples: |
     - ora [12](time)
@@ -147,12 +158,12 @@ nlu:
     - in jur de [12](time)
     - [1:30](time)
     - [14:03](time)
-    - [1:23 pm](time)
+    - ora [1:23 pm](time)
     - [12:30](time)
-    - [1 pm](time)
+    - ora [1 pm](time)
     - [1pm](time)
     - [3 am](time)
-    - [3am](time)
+    - ora [3am](time)
     - [23](time)
     - [12](time)
     - ora [1](time)
@@ -176,6 +187,10 @@ nlu:
     - [Iliescu](last_name)
     - [Cristescu](last_name)
     - [Mihai](first_name) [Gavrila](last_name)
+    - [Florin](first_name) [Ionescu](last_name)
+    - [Costel](first_name) [Cristescu](last_name)
+    - [Costel](first_name) [Ionescu](last_name)
+    - [Ionescu](last_name)
 - intent: gender
   examples: |
     - [barbat](gender)

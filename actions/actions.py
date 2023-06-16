@@ -20,7 +20,7 @@ def remove_common_prefixes(name: str) -> str:
         return name
     
 def is_office_hours(time_str: str) -> bool:
-    time_obj = datetime.strptime(time_str, "%H:%M").time()
+    time_obj = datetime.strptime(time_str, "%H:%M:%S").time()
     office_start = time(9, 0)  # Office hours start time
     office_end = time(17, 0)  # Office hours end time
 
@@ -99,7 +99,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
              # Try parsing time_format_1
             parsed_time = datetime.strptime(user_time, time_format_1).time()
             converted_time = parsed_time.strftime("%I:%M %p")
-
+            
             if not is_office_hours(converted_time):
                 dispatcher.utter_message("Orele de muncă sunt între 9-17. Vă rog să introduceți o oră în acest interval.")
                 return {"time": None}
@@ -111,7 +111,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
             try:
                 # Try parsing time_format_2
                 parsed_time = datetime.strptime(user_time, time_format_2).time()
-                converted_time = parsed_time.strftime("%H:%M")
+                converted_time = parsed_time.strftime("%H:%M:%S")
                 if not is_office_hours(converted_time):
                     dispatcher.utter_message("Orele de muncă sunt între 9-17. Vă rog să introduceți o oră în acest interval.")
                     return {"time": None}
@@ -122,7 +122,7 @@ class ValidationBookAppointmentForm(FormValidationAction):
                 try:
                     # Try parsing time_format_3 (only hour provided)
                     parsed_time = datetime.strptime(user_time, time_format_3).time()
-                    converted_time = parsed_time.replace(minute=0).strftime("%H:%M")
+                    converted_time = parsed_time.replace(minute=0).strftime("%H:%M:%S")
                     if not is_office_hours(converted_time):
                         dispatcher.utter_message("Orele de muncă sunt între 9-17. Vă rog să introduceți o oră în acest interval.")
                         return {"time": None}
@@ -329,7 +329,8 @@ class CheckExtraDetailsFormFilled(Action):
         return "action_check_extra_details_form_filled"
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        if (tracker.get_slot("slot_ask_for_second_form")== True):
+        name_slots = ["first_name", "last_name"]
+        if all(tracker.get_slot(slot) for slot in name_slots):
             # dispatcher.utter_message("utter_ask_additional_info2")
             return [SlotSet("slot_ask_for_third_form", True)]
         else:
@@ -356,7 +357,7 @@ class SaveAppointmentInDatabase(Action):
             createDoctorsTable = """CREATE TABLE IF NOT EXISTS doctors(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, doctor_name varchar(255))"""
             createPatientExtraInfo = """CREATE TABLE IF NOT EXISTS patients_extra_info(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_id INT, gender varchar(255), age INT, weight_risk varchar(255), hypertension varchar(255), smoker varchar(255), recent_surgeries varchar(255), FOREIGN KEY (patient_id) REFERENCES patients(id))"""
             createSpecialtiesTable = """CREATE TABLE IF NOT EXISTS medical_specialties(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, specialty varchar(255))"""
-            createAppointmentsTable = """CREATE TABLE IF NOT EXISTS appointments(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_id INT, date DATE, time TIME, doctor_id INT, specialty_id INT, FOREIGN KEY (patient_id) REFERENCES patients(id), FOREIGN KEY (specialty_id) REFERENCES medical_specialties(id))"""
+            createAppointmentsTable = """CREATE TABLE IF NOT EXISTS appointments(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_id INT, date DATE, time TIME, doctor_id INT, specialty_id INT, FOREIGN KEY (patient_id) REFERENCES patients(id), FOREIGN KEY (specialty_id) REFERENCES medical_specialties(id), status varchar(255) DEFAULT 'active')"""
             
         
             cursor.execute(createPatientsTable)
@@ -387,6 +388,7 @@ class SaveAppointmentInDatabase(Action):
             time = tracker.get_slot('time')
             doctor = tracker.get_slot('doctor')
             department = tracker.get_slot('department')
+        
 
             # Insert data into the 'patients' table
             insert_patient_query = """
@@ -471,6 +473,164 @@ class SaveAppointmentInDatabase(Action):
     def allSlotsFilled(self, tracker: Tracker) -> bool:
         required_slots = ['first_name', 'last_name', 'gender', 'age', 'weight_risk', 'hypertension',
                           'recent_surgeries', 'date', 'time', 'doctor', 'department']
+
+        for slot_name in required_slots:
+            if tracker.get_slot(slot_name) is None:
+                return False
+
+        return True
+    
+class ValidationCancelAppointmentForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_cancel_appointment_form"
+
+    def validate_cancel_date(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> Dict[Text, Any]:
+        user_date = tracker.get_slot("date")
+        current_month = date.today().month
+        current_year = date.today().year
+        date_format1 = "%Y-%m-%d"  # Date format: YYYY-MM-DD
+        date_format2 = "%d/%m/%Y"  # Date format: DD/MM/YYYY
+        date_format3 = "%d.%m"  # Date format: DD.MM
+
+        if not slot_value:
+            dispatcher.utter_message("Vă rog să introduceți o dată")
+            return {"cancel_date": None}
+        try:
+            # Try parsing date using format1
+            parsed_date = datetime.strptime(user_date, date_format1)
+            validated_date = parsed_date.date().isoformat()
+            return {"cancel_date": validated_date}
+
+        except ValueError:
+            try:
+                # Try parsing date using format2
+                parsed_date = datetime.strptime(user_date, date_format2)
+                validated_date = parsed_date.date().isoformat()
+                return {"cancel_date": validated_date}
+
+            except ValueError:
+                try:
+                    # Try parsing date using format3
+                    parsed_date = datetime.strptime(user_date, date_format3)
+                    input_month = parsed_date.month
+                    if input_month >= current_month:
+                        validated_date = f"{current_year}-{parsed_date.month:02d}-{parsed_date.day:02d}"
+                    else:
+                        validated_date = f"{current_year + 1}-{parsed_date.month:02d}-{parsed_date.day:02d}"
+                    return {"cancel_date": validated_date}
+
+                except ValueError:
+                    # Invalid date format
+                    dispatcher.utter_message("Format invalid. Vă rugăm sa introduceți data sub următoarele forme: YYYY-MM-DD, DD/MM/YYYY, or DD.MM.")
+                    return {"cancel_date": None}
+    
+    def validate_cancel_first_name(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `first_name` value."""
+        # We check for super short first_names
+        name = clean_text(slot_value)
+        if len(name) == 0:
+            dispatcher.utter_message(text="Cred că ați greșit.")
+            return {"cancel_first_name": None}
+        return {"cancel_first_name": name}
+    def validate_cancel_last_name(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `last_name` value."""
+        name = clean_text(slot_value)
+        if len(name) == 0:
+            dispatcher.utter_message(text="Cred că ați greșit.")
+            return{"cancel_last_name": None}
+        first_name = tracker.get_slot("cancel_last_name")
+        if len(first_name) + len(name) < 3:
+            dispatcher.utter_message(
+                text="Combinația nume/prenume este prea scurtă. Credem că s-a comis o eroare. Restartăm.")
+            return {"cancel_first_name": None, "cancel_last_name": None}
+        return {"cancel_last_name": name}
+    
+    def validate_cancel_department(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        department_list = ["cardiologie", "dermatologie", "ortopedie", "pediatrie", "neurologie", "medicina generala", "oftalmologie"]
+        
+        if not slot_value:
+            dispatcher.utter_message("Vă rugăm să introduceți numele departmentului.")
+            return {"cancel_department": None}
+        
+        if slot_value.lower() not in department_list:
+            dispatcher.utter_message(
+                "Departament invalid selectat. Puteți alege doar între: Cardiologie, Dermatologie, Ortopedie, Pediatrie, Neurologie, Medicina generala, Oftalmologie"
+            )
+            return {"cancel_department": None}
+
+        return {"cancel_department": slot_value}
+    
+class CancelAppointmentInDatabase(Action):
+    def name(self)->Text:
+        return "action_cancel_appointment_in_database"
+    
+    def run(self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        
+        connection = DbReservationSave()    
+        cursor = connection.cursor()
+        if self.allSlotsFilled(tracker):
+            
+            cancel_first_name = tracker.get_slot('cancel_first_name')
+            cancel_last_name = tracker.get_slot('cancel_last_name')
+            cancel_date = tracker.get_slot('cancel_date')
+            cancel_department = tracker.get_slot('cancel_department')
+            
+            query = """
+            UPDATE appointments AS a
+            JOIN patients AS p ON a.patient_id = p.id
+            JOIN doctors AS d ON a.doctor_id = d.id
+            JOIN medical_specialties AS s ON a.specialty_id = s.id
+            SET a.status = 'canceled'
+            WHERE
+                p.first_name = %s
+                AND p.last_name = %s
+                AND a.date = %s
+                AND s.specialty = %s
+                AND a.status = 'active'
+                """
+            cursor.execute(query, (cancel_first_name, cancel_last_name, cancel_date, cancel_department))
+            if cursor.rowcount > 0:
+                # Changes were made, appointment was found and canceled
+                dispatcher.utter_message("Programare anulată cu succes")
+            else:
+                # No changes were made, appointment not found or already canceled
+                dispatcher.utter_message("Nu există programări pentru această dată")
+            connection.commit()
+            
+            cursor.close()
+            connection.close()
+        return [] 
+    
+    def allSlotsFilled(self, tracker: Tracker) -> bool:
+        required_slots = ['cancel_first_name', 'cancel_last_name', 'cancel_date', 'cancel_department']
 
         for slot_name in required_slots:
             if tracker.get_slot(slot_name) is None:

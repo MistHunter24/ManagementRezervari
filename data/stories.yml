@@ -1,74 +1,24 @@
 version: "3.1"
 
 stories:
-
-- story: FirstName and LastName activation
+- story: Cancel appointment
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: request_names
-  - action: name_form
-  - active_loop: name_form
+  - intent: cancel_appointment
+  - action: cancel_appointment_form
+  - active_loop: cancel_appointment_form
   - slot_was_set:
-    - requested_slot: first_name
+    - requested_slot: cancel_first_name
   - slot_was_set:
-    - first_name: Mircea
+    - requested_slot: cancel_last_name
   - slot_was_set:
-    - requested_slot: last_name
+    - requested_slot: cancel_date
   - slot_was_set:
-    - last_name: Dumitrescu
-  - slot_was_set:
-    - requested_slot: null
+    - requested_slot: cancel_department
   - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_name
+  - action: action_cancel_appointment_in_database
 
-- story: FirstName and LastName validation
+- story: Programare
   steps:
-  - intent: request_names
-  - action: name_form
-  - active_loop: name_form
-  - slot_was_set:
-    - requested_slot: first_name
-  - slot_was_set:
-    - first_name: '#@@'
-  - slot_was_set:
-    - first_name: null
-  - slot_was_set:
-    - requested_slot: first_name
-  - slot_was_set:
-    - first_name: a
-  - slot_was_set:
-    - first_name: a
-  - slot_was_set:
-    - requested_slot: last_name
-  - slot_was_set:
-    - last_name: a
-  - slot_was_set:
-    - last_name: null
-  - slot_was_set:
-    - first_name: null
-  - slot_was_set:
-    - requested_slot: first_name
-  - slot_was_set:
-    - first_name: Mircea
-  - slot_was_set:
-    - first_name: Mircea
-  - slot_was_set:
-    - requested_slot: last_name
-  - slot_was_set:
-    - last_name: Dumitrescu
-  - slot_was_set:
-    - last_name: Dumitrescu
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_name
-
-
-- story: Book appointment
-  steps: 
   - intent: book_appointment
   - action: appointment_form
   - active_loop: appointment_form
@@ -83,181 +33,20 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
-  - action: utter_submit
   - action: utter_saved_appointment_form
+  - intent: affirm
+  - checkpoint: check_asked_question
 
-- story: interactive_book_appointment_1
+- story: Activare formular nume
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: book_appointment
-    entities:
-    - date: '12.06'
-    - time: '6'
-    - doctor: dr. Matei Florescu
-    - department: cardiologie
-  - slot_was_set:
-    - date: '12.06'
-  - slot_was_set:
-    - time: '6'
-  - slot_was_set:
-    - doctor: dr. Matei Florescu
-  - slot_was_set:
-    - department: cardiologie
-  - action: appointment_form
-  - active_loop: appointment_form
-  - slot_was_set:
-    - date: '12.06'
-  - slot_was_set:
-    - time: '6'
-  - slot_was_set:
-    - doctor: dr. Matei Florescu
-  - slot_was_set:
-    - department: cardiologie
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_appointment_form
-  - intent: thank_you
-  - action: utter_you_are_welcome
-  
-
-- story: interactive_book_appointment_2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: book_appointment
-  - action: appointment_form
-  - active_loop: appointment_form
-  - slot_was_set:
-    - requested_slot: date
-  - slot_was_set:
-    - date: '24.03'
-  - slot_was_set:
-    - requested_slot: time
-  - slot_was_set:
-    - time: 12:30
-  - slot_was_set:
-    - requested_slot: doctor
-  - slot_was_set:
-    - doctor: dr. Barbu
-  - slot_was_set:
-    - requested_slot: department
-  - slot_was_set:
-    - department: Cardiologie
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_appointment_form
-
-
-- story: interactive_book_appointment_3
-  steps:
-  - intent: book_appointment
-  - action: appointment_form
-  - active_loop: appointment_form
-  - slot_was_set:
-    - requested_slot: date
-  - slot_was_set:
-    - date: '24.06'
-  - slot_was_set:
-    - date: 24-06-2024
-  - slot_was_set:
-    - requested_slot: time
-  - slot_was_set:
-    - time: '12'
-  - slot_was_set:
-    - time: 12:00
-  - slot_was_set:
-    - requested_slot: doctor
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - requested_slot: department
-  - slot_was_set:
-    - department: Oftalmologie
-  - slot_was_set:
-    - department: Oftalmologie
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_appointment_form
-
-
-- story: Name after appointment
-  steps:
+  - checkpoint: check_asked_question
   - action: action_check_appointment_form_filled
   - slot_was_set:
     - slot_ask_for_second_form: true
   - action: name_form
   - active_loop: name_form
-
-- story: interactive_story_1
-  steps:
-  - intent: book_appointment
-    entities:
-    - date: '12.05'
-    - time: '12'
-    - department: Cardiologie
-    - doctor: Mateescu
-  - slot_was_set:
-    - date: '12.05'
-  - slot_was_set:
-    - time: '12'
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Cardiologie
-  - slot_was_set:
-    - slot_ask_for_second_form: false
-  - action: appointment_form
-  - active_loop: appointment_form
-  - slot_was_set:
-    - date: 12-05-2024
-  - slot_was_set:
-    - time: 12:00
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Cardiologie
-  - slot_was_set:
-    - slot_ask_for_second_form: true
-  - slot_was_set:
-    - date: 12-05-2024
-  - slot_was_set:
-    - time: 12:00
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Cardiologie
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_appointment_form
-  - action: utter_ask_additional_info1
-  - action: action_check_appointment_form_filled
-  - slot_was_set:
-    - slot_ask_for_second_form: true
-  - action: name_form
-  - active_loop: name_form
-  - slot_was_set:
-    - date: '12.05'
-  - slot_was_set:
-    - time: '12'
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Cardiologie
   - slot_was_set:
     - requested_slot: first_name
-  - slot_was_set:
-    - first_name: Mircea
   - slot_was_set:
     - first_name: Mircea
   - slot_was_set:
@@ -265,175 +54,15 @@ stories:
   - slot_was_set:
     - last_name: Dumitrescu
   - slot_was_set:
-    - last_name: Dumitrescu
-  - slot_was_set:
     - requested_slot: null
   - active_loop: null
-  - action: utter_submit
   - action: utter_saved_name
+  - intent: affirm
+  - checkpoint: check_asked_question2
 
-- story: interactive_story_1
+- story: Activare intrebari
   steps:
-  - intent: book_appointment
-    entities:
-    - time: '12'
-    - date: '07.09'
-    - doctor: Mateescu
-    - department: Cardiologie
-  - slot_was_set:
-    - date: '07.09'
-  - slot_was_set:
-    - time: '12'
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Cardiologie
-  - slot_was_set:
-    - slot_ask_for_second_form: false
-  - action: appointment_form
-  - active_loop: appointment_form
-  - slot_was_set:
-    - date: 2023-09-07
-  - slot_was_set:
-    - time: 12:00
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Cardiologie
-  - slot_was_set:
-    - slot_ask_for_second_form: true
-  - slot_was_set:
-    - date: 2023-09-07
-  - slot_was_set:
-    - time: 12:00
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Cardiologie
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_appointment_form
-  - action: utter_ask_additional_info1
-  - action: action_check_appointment_form_filled
-  - slot_was_set:
-    - slot_ask_for_second_form: true
-  - action: name_form
-  - active_loop: name_form
-  - slot_was_set:
-    - date: '07.09'
-  - slot_was_set:
-    - time: '12'
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Cardiologie
-  - slot_was_set:
-    - requested_slot: first_name
-  - slot_was_set:
-    - first_name: Mircea
-  - slot_was_set:
-    - first_name: Mircea
-  - slot_was_set:
-    - requested_slot: last_name
-  - slot_was_set:
-    - last_name: Dumitrescu
-  - slot_was_set:
-    - last_name: Dumitrescu
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_name
-
-- story: Additional questions after appointment
-  steps:
-  - action: action_check_extra_details_form_filled
-  - slot_was_set:
-    - slot_ask_for_third_form: true
-  - action: preliminary_questions_form
-  - active_loop: preliminary_questions_form
-
-- story: Story with 3 forms one after another
-  steps:
-  - intent: book_appointment
-    entities:
-    - date: '12.07'
-    - time: '12'
-    - doctor: Mateescu
-    - department: Oftalmologie
-  - slot_was_set:
-    - date: '12.07'
-  - slot_was_set:
-    - time: '12'
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Oftalmologie
-  - slot_was_set:
-    - slot_ask_for_second_form: false
-  - slot_was_set:
-    - slot_ask_for_third_form: false
-  - action: appointment_form
-  - active_loop: appointment_form
-  - slot_was_set:
-    - date: 2023-07-12
-  - slot_was_set:
-    - time: 12:00
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Oftalmologie
-  - slot_was_set:
-    - slot_ask_for_second_form: true
-  - slot_was_set:
-    - date: 2023-07-12
-  - slot_was_set:
-    - time: 12:00
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Oftalmologie
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_appointment_form
-  - action: utter_ask_additional_info1
-  - action: action_check_appointment_form_filled
-  - slot_was_set:
-    - slot_ask_for_second_form: true
-  - action: name_form
-  - active_loop: name_form
-  - slot_was_set:
-    - date: '12.07'
-  - slot_was_set:
-    - time: '12'
-  - slot_was_set:
-    - doctor: Mateescu
-  - slot_was_set:
-    - department: Oftalmologie
-  - slot_was_set:
-    - slot_ask_for_third_form: true
-  - slot_was_set:
-    - requested_slot: first_name
-  - slot_was_set:
-    - first_name: Mircea
-  - slot_was_set:
-    - first_name: Mircea
-  - slot_was_set:
-    - requested_slot: last_name
-  - slot_was_set:
-    - last_name: Dumitrescu
-  - slot_was_set:
-    - last_name: Dumitrescu
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_saved_name
-  - action: utter_ask_additional_info2
+  - checkpoint: check_asked_question2
   - action: action_check_extra_details_form_filled
   - slot_was_set:
     - slot_ask_for_third_form: true
@@ -476,10 +105,457 @@ stories:
   - slot_was_set:
     - recent_surgeries: da
   - slot_was_set:
-    - recent_surgeries: da
+    - recent_surgeries: true
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
-  - action: utter_submit
   - action: utter_saved_preliminary_questions
+
+- story: interactive_story_1
+  steps:
+  - intent: book_appointment
+    entities:
+    - date: '12.07'
+    - time: '12'
+    - doctor: Mateescu
+    - department: Oftalmologie
+  - slot_was_set:
+    - date: '12.07'
+  - slot_was_set:
+    - time: '13'
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - slot_was_set:
+    - slot_ask_for_third_form: false
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - date: '2023-07-12'
+  - slot_was_set:
+    - time: 13:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - slot_was_set:
+    - date: '2023-07-12'
+  - slot_was_set:
+    - time: 13:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - date: '2023-07-12'
+  - slot_was_set:
+    - time: 13:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_extra_details_form_filled
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - action: action_check_extra_details_form_filled
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form
+  - slot_was_set:
+    - date: '2023-07-12'
+  - slot_was_set:
+    - time: 13:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - gender: masculin
+  - slot_was_set:
+    - age: '29'
+  - slot_was_set:
+    - requested_slot: weight_risk
+  - slot_was_set:
+    - weight_risk: nu
+  - slot_was_set:
+    - weight_risk: false
+  - slot_was_set:
+    - requested_slot: hypertension
+  - slot_was_set:
+    - hypertension: nu
+  - slot_was_set:
+    - hypertension: false
+  - slot_was_set:
+    - requested_slot: smoker
+  - slot_was_set:
+    - smoker: nu
+  - slot_was_set:
+    - smoker: false
+  - slot_was_set:
+    - requested_slot: recent_surgeries
+  - slot_was_set:
+    - recent_surgeries: nu
+  - slot_was_set:
+    - recent_surgeries: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
   - action: action_save_in_database
+
+- story: interactive_story_3
+  steps:
+  - intent: book_appointment
+    entities:
+    - date: 12/12/2023
+  - slot_was_set:
+    - date: 12/12/2023
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - slot_was_set:
+    - slot_ask_for_third_form: false
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - date: '2023-12-12'
+  - slot_was_set:
+    - date: '2023-12-12'
+  - slot_was_set:
+    - requested_slot: time
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: oftalmologie
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: oftalmologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - time: 12:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: oftalmologie
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Florin
+  - slot_was_set:
+    - last_name: Ionescu
+  - slot_was_set:
+    - first_name: Florin
+  - slot_was_set:
+    - last_name: Ionescu
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - first_name: Florin
+  - slot_was_set:
+    - last_name: Ionescu
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - slot_was_set:
+    - first_name: Florin
+  - slot_was_set:
+    - last_name: Ionescu
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_extra_details_form_filled
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form
+  - slot_was_set:
+    - first_name: Florin
+  - slot_was_set:
+    - last_name: Ionescu
+  - slot_was_set:
+    - requested_slot: gender
+  - slot_was_set:
+    - gender: feminin
+  - slot_was_set:
+    - gender: feminin
+  - slot_was_set:
+    - requested_slot: age
+  - slot_was_set:
+    - age: '34'
+  - slot_was_set:
+    - age: '34'
+  - slot_was_set:
+    - requested_slot: weight_risk
+  - slot_was_set:
+    - weight_risk: nu
+  - slot_was_set:
+    - weight_risk: false
+  - slot_was_set:
+    - requested_slot: hypertension
+  - slot_was_set:
+    - hypertension: nu
+  - slot_was_set:
+    - hypertension: false
+  - slot_was_set:
+    - requested_slot: smoker
+  - slot_was_set:
+    - smoker: nu
+  - slot_was_set:
+    - smoker: false
+  - slot_was_set:
+    - requested_slot: recent_surgeries
+  - slot_was_set:
+    - recent_surgeries: da
+  - slot_was_set:
+    - recent_surgeries: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_save_in_database
+
+- story: interactive_story_1
+  steps:
+  - intent: book_appointment
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - slot_was_set:
+    - slot_ask_for_third_form: false
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - requested_slot: date
+  - slot_was_set:
+    - date: '2023-07-23'
+  - slot_was_set:
+    - date: '2023-07-23'
+  - slot_was_set:
+    - requested_slot: time
+  - slot_was_set:
+    - time: 12:30
+  - slot_was_set:
+    - time: 12:30:00
+  - slot_was_set:
+    - requested_slot: doctor
+  - slot_was_set:
+    - doctor: Enache
+  - slot_was_set:
+    - doctor: Enache
+  - slot_was_set:
+    - requested_slot: department
+  - slot_was_set:
+    - department: Neurologie
+  - slot_was_set:
+    - department: Neurologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - department: Neurologie
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Costel
+  - slot_was_set:
+    - last_name: Cristescu
+  - slot_was_set:
+    - first_name: Costel
+  - slot_was_set:
+    - last_name: Cristescu
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_extra_details_form_filled
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form
+  - slot_was_set:
+    - first_name: Costel
+  - slot_was_set:
+    - last_name: Cristescu
+  - slot_was_set:
+    - requested_slot: gender
+  - slot_was_set:
+    - gender: masculin
+  - slot_was_set:
+    - gender: masculin
+  - slot_was_set:
+    - requested_slot: age
+  - slot_was_set:
+    - age: '29'
+  - slot_was_set:
+    - age: '29'
+  - slot_was_set:
+    - requested_slot: weight_risk
+  - slot_was_set:
+    - weight_risk: nu
+  - slot_was_set:
+    - weight_risk: false
+  - slot_was_set:
+    - requested_slot: hypertension
+  - slot_was_set:
+    - hypertension: da
+  - slot_was_set:
+    - hypertension: true
+  - slot_was_set:
+    - requested_slot: smoker
+  - slot_was_set:
+    - smoker: da
+  - slot_was_set:
+    - smoker: true
+  - slot_was_set:
+    - requested_slot: recent_surgeries
+  - slot_was_set:
+    - recent_surgeries: da
+  - slot_was_set:
+    - recent_surgeries: true
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_save_in_database
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: interactive_story_1
+  steps:
+  - intent: cancel_appointment
+    entities:
+    - cancel: anulez
+  - action: cancel_appointment_form
+  - active_loop: cancel_appointment_form
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - slot_was_set:
+    - slot_ask_for_third_form: false
+  - slot_was_set:
+    - requested_slot: cancel_first_name
+  - slot_was_set:
+    - first_name: Florin
+  - slot_was_set:
+    - cancel_first_name: Florin
+  - slot_was_set:
+    - requested_slot: cancel_last_name
+  - slot_was_set:
+    - last_name: Ionescu
+  - slot_was_set:
+    - cancel_last_name: Ionescu
+  - slot_was_set:
+    - requested_slot: cancel_date
+  - slot_was_set:
+    - date: '2023-12-12'
+  - slot_was_set:
+    - cancel_date: '2023-12-12'
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - slot_was_set:
+    - requested_slot: cancel_department
+  - slot_was_set:
+    - department: Oftalmologie
+  - slot_was_set:
+    - cancel_department: Oftalmologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_cancel_appointment_in_database
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - slot_was_set:
+    - slot_ask_for_third_form: false
+  - action: utter_greet
+  - intent: cancel_appointment
+    entities:
+    - date: '2023-07-22'
+    - time: '14'
+  - slot_was_set:
+    - date: '2023-07-22'
+  - slot_was_set:
+    - time: '14'
+  - action: cancel_appointment_form
+  - active_loop: cancel_appointment_form
+  - slot_was_set:
+    - date: '2023-07-22'
+  - slot_was_set:
+    - time: '14'
+  - slot_was_set:
+    - requested_slot: cancel_first_name
+  - slot_was_set:
+    - first_name: Costel
+  - slot_was_set:
+    - last_name: Ionescu
+  - slot_was_set:
+    - cancel_first_name: Costel
+  - slot_was_set:
+    - requested_slot: cancel_last_name
+  - slot_was_set:
+    - last_name: Ionescu
+  - slot_was_set:
+    - cancel_last_name: Ionescu
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - slot_was_set:
+    - requested_slot: cancel_date
+  - slot_was_set:
+    - date: '2023-07-22'
+  - slot_was_set:
+    - cancel_date: '2023-07-22'
+  - slot_was_set:
+    - requested_slot: cancel_department
+  - slot_was_set:
+    - department: Pediatrie
+  - slot_was_set:
+    - cancel_department: Pediatrie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_cancel_appointment_in_database

@@ -7,29 +7,15 @@ rules:
   - intent: goodbye
   - action: utter_goodbye
 
+- rule: Say hello anytime the user says hello
+  steps:
+  - intent: greet
+  - action: utter_greet
+
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
-
-- rule: Activate name_form
-  steps:
-  - intent: request_names
-  - action: name_form
-  - active_loop: name_form
-
-- rule: Submit name_form
-  condition:
-  - active_loop: name_form
-  steps:
-  - action: name_form
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_submit
-  - action: utter_saved_name
-  wait_for_user_input: false
-
 
 - rule: Activate appointment_form
   steps:
@@ -37,14 +23,37 @@ rules:
   - action: appointment_form
   - active_loop: appointment_form
 
-
-
-- rule: Fill the name_form
+- rule: activate name forms
   condition:
-  - active_loop: appointment_form
+  - slot_was_set:
+    - slot_ask_for_second_form: true
   steps:
-  - action: action_check_appointment_form_filled
-  - active_loop: null
   - action: name_form
   - active_loop: name_form
-  wait_for_user_input: false
+
+- rule: extra forms
+  condition:
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  steps:
+    - action: preliminary_questions_form
+    - active_loop: preliminary_questions_form
+
+- rule: submit to action_save_in_database
+  condition:
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  steps:
+  - action: action_save_in_database
+
+- rule: cancel_appointment
+  condition:
+  - active_loop: cancel_appointment_form
+  steps:
+  - action: cancel_appointment_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_cancel_appointment_in_database

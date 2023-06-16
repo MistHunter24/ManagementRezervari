@@ -4,10 +4,17 @@ session_config:
   carry_over_slots_to_new_session: true
 intents:
 - affirm
+- age
 - book_appointment
 - bot_challenge
-- cancel_appointment
+- cancel_appointment:
+    ignore_entities:
+    - first_name
+    - last_name
+    - date
+    - time
 - deny
+- gender
 - goodbye
 - greet
 - name_form
@@ -17,18 +24,23 @@ intents:
 - select_doctor
 - select_time
 - thank_you
-- gender
-- age
 entities:
-- last_name
-- doctor
-- date
-- time
-- department
 - first_name
-- gender
+- department
+- time
+- last_name
+- date
+- cancel
 - age
+- doctor
+- gender
 forms:
+  cancel_appointment_form:
+    required_slots:
+    - cancel_first_name
+    - cancel_last_name
+    - cancel_date
+    - cancel_department
   name_form:
     required_slots:
     - first_name
@@ -110,13 +122,13 @@ slots:
         requested_slot: recent_surgeries
   date:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings:
     - type: from_entity
       entity: date
   time:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings:
     - type: from_entity
       entity: time
@@ -132,6 +144,38 @@ slots:
     mappings:
     - type: from_entity
       entity: department
+  cancel_first_name:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: cancel_appointment_form
+        requested_slot: cancel_first_name
+  cancel_last_name:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: cancel_appointment_form
+        requested_slot: cancel_last_name
+  cancel_date:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: cancel_appointment_form
+        requested_slot: cancel_date
+  cancel_department:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: cancel_appointment_form
+        requested_slot: cancel_department
   slot_ask_for_second_form:
     type: bool
     influence_conversation: true
@@ -164,7 +208,7 @@ responses:
   utter_submit:
   - text: Ok. Mulțumesc!
   utter_saved_name:
-  - text: Numele dumneavoastră este {first_name} {last_name}!
+  - text: Numele dumneavoastră este {first_name} {last_name}?
   utter_ask_how_can_I_help:
   - text: Cu ce vă pot fi de folos?
   utter_ask_gender:
@@ -199,12 +243,21 @@ responses:
   utter_ask_department:
   - text: Care este specializarea medicală care vă interesează?
   utter_saved_appointment_form:
-  - text: Veți fi programat pe data {date}, la ora {time}, la domnul/doamna {doctor} de la departamentul {department}.
+  - text: Doriți să fiți programat pe data {date}, la ora {time}, la domnul/doamna {doctor} de la departamentul {department}?
   utter_ask_additional_info1:
   - text: Înainte de a trimite programarea, vă voi adresa cateva intrebări suplimentare:"
   utter_ask_additional_info2:
   - text: Înca 2-3 întrebări
+  utter_ask_cancel_first_name:
+  - text: Care este prenumele?
+  utter_ask_cancel_last_name:
+  - text: care este numele?
+  utter_ask_cancel_date:
+  - text: Care este data programării?
+  utter_ask_cancel_department:
+  - text: Ce departament?
 actions:
+- action_cancel_appointment_in_database
 - action_check_appointment_form_filled
 - action_check_extra_details_form_filled
 - action_save_in_database
@@ -215,9 +268,10 @@ actions:
 - utter_iamabot
 - utter_saved_appointment_form
 - utter_saved_name
+- utter_saved_preliminary_questions
 - utter_submit
 - utter_you_are_welcome
-- utter_saved_preliminary_questions
 - validate_appointment_form
+- validate_cancel_appointment_form
 - validate_name_form
 - validate_preliminary_questions_form
