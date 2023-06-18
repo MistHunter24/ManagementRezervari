@@ -17,7 +17,7 @@ function Basic() {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        const name = "mircea";
+        const name = "Management Rezervări";
         const request_temp = { sender: "user", sender_id: name, msg: inputMessage };
 
         if (inputMessage !== "") {
@@ -33,9 +33,6 @@ function Basic() {
     }
 
     const rasaAPI = async function handleClick(name, msg) {
-
-        //chatData.push({sender : "user", sender_id : name, msg : msg});
-
 
         await fetch('http://localhost:5005/webhooks/rest/webhook', {
             method: 'POST',
@@ -59,7 +56,6 @@ function Basic() {
                     setBotTyping(false);
 
                     setChat(chat => [...chat, response_temp]);
-                    // scrollBottom();
 
                 }
             })
@@ -80,14 +76,14 @@ function Basic() {
         height: '4.5rem',
         borderBottom: '1px solid black',
         borderRadius: '30px 30px 0px 0px',
-        backgroundColor: '#8012c4',
+        backgroundColor: '#0B90FC',
 
     }
     const styleFooter = {
         //maxWidth : '32rem',
         borderTop: '1px solid black',
         borderRadius: '0px 0px 30px 30px',
-        backgroundColor: '#8012c4',
+        backgroundColor: '#0B90FC',
 
 
     }
@@ -101,15 +97,13 @@ function Basic() {
 
     return (
         <div>
-            {/* <button onClick={()=>rasaAPI("shreyas","hi")}>Try this</button> */}
-
 
             <div className="container">
                 <div className="row justify-content-center">
 
                     <div className="card" style={stylecard}>
                         <div className="cardHeader text-white" style={styleHeader}>
-                            <h1 style={{ marginBottom: '0px' }}>AI Assistant</h1>
+                            <h1 style={{ marginTop: '0px', marginBottom: '0px' }}>AI Assistant</h1>
                             {botTyping ? <h6>Bot Typing....</h6> : null}
 
 
@@ -144,10 +138,10 @@ function Basic() {
                         <div className="cardFooter text-white" style={styleFooter}>
                             <div className="row">
                                 <form style={{ display: 'flex' }} onSubmit={handleSubmit}>
-                                    <div className="col-10" style={{ paddingRight: '0px' }}>
+                                    <div className="col-10" style={{ paddingRight: '0px', marginRight: '30px' }}>
                                         <input onChange={e => setInputMessage(e.target.value)} value={inputMessage} type="text" className="msginp"></input>
                                     </div>
-                                    <div className="col-2 cola">
+                                    <div className="col-2 cola" style={{ marginLeft: '30px' }}>
                                         <button type="submit" className="circleBtn" ><IoMdSend className="sendBtn" /></button>
                                     </div>
                                 </form>

@@ -57,3 +57,35 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_cancel_appointment_in_database
+
+- rule: raspunsuri chitchat
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+
+- rule: chitchat in programare
+  condition:
+  - active_loop: appointment_form
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: appointment_form
+  - active_loop: appointment_form
+
+- rule: chitchat in name_form
+  condition:
+  - active_loop: name_form
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: name_form
+  - active_loop: name_form
+
+- rule: chitchat in preliminary_questions_form
+  condition:
+  - active_loop: preliminary_questions_form
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form

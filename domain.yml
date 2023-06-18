@@ -13,6 +13,18 @@ intents:
     - last_name
     - date
     - time
+- chitchat:
+    used_entities:
+    - age
+    - cancel
+    - date
+    - department
+    - doctor
+    - first_name
+    - gender
+    - last_name
+    - time
+    is_retrieval_intent: true
 - deny
 - gender
 - goodbye
@@ -23,16 +35,17 @@ intents:
 - select_department
 - select_doctor
 - select_time
+- stop
 - thank_you
 entities:
-- first_name
-- department
 - time
-- last_name
+- department
 - date
-- cancel
-- age
 - doctor
+- last_name
+- age
+- first_name
+- cancel
 - gender
 forms:
   cancel_appointment_form:
@@ -189,6 +202,16 @@ slots:
     - type: custom
       action: action_check_extra_details_form_filled
 responses:
+  utter_stop:
+  - text: Sigur doriți să ne oprim? Scrieti 'stop' pentru a confirma.
+  utter_chitchat/ce_faci:
+  - text: Foarte bine, mulțumesc!
+  utter_chitchat/durata_programare:
+  - text: Durata unei programări poate să varieze în funcție de foarte mulți factori, dar media este de 30 minute.
+  utter_chitchat/ore_de_lucru:
+  - text: Orele de lucru sunt între 9 și 17. Programările se pot face oricând.
+  utter_chitchat/cat_costa:
+  - text: Prețul unui consult de bază este de xyz RON.
   utter_greet:
   - text: Bună ziua! Cu ce vă pot ajuta?
   utter_you_are_welcome:
@@ -263,12 +286,14 @@ actions:
 - action_save_in_database
 - utter_ask_additional_info1
 - utter_ask_how_can_I_help
+- utter_chitchat
 - utter_goodbye
 - utter_greet
 - utter_iamabot
 - utter_saved_appointment_form
 - utter_saved_name
 - utter_saved_preliminary_questions
+- utter_stop
 - utter_submit
 - utter_you_are_welcome
 - validate_appointment_form

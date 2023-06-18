@@ -111,7 +111,7 @@ stories:
   - active_loop: null
   - action: utter_saved_preliminary_questions
 
-- story: interactive_story_1
+- story: formular salvare 1
   steps:
   - intent: book_appointment
     entities:
@@ -559,3 +559,222 @@ stories:
     - requested_slot: null
   - active_loop: null
   - action: action_cancel_appointment_in_database
+
+- story: stop appointment
+  steps:
+  - action: appointment_form
+  - active_loop: appointment_form
+  - intent: stop
+  - action: utter_stop
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: stop preliminary_q
+  steps:
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form
+  - intent: stop
+  - action: utter_stop
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: stop name_f
+  steps:
+  - action: name_form
+  - active_loop: name_form
+  - intent: stop
+  - action: utter_stop
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+
+
+
+
+- story: Chitchat appointment
+  steps:
+  - intent: greet
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - slot_was_set:
+    - slot_ask_for_third_form: false
+  - action: utter_greet
+  - intent: chitchat
+  - action: utter_chitchat
+  - intent: book_appointment
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - requested_slot: date
+  - slot_was_set:
+    - date: '2023-07-25'
+  - slot_was_set:
+    - date: '2023-07-25'
+  - slot_was_set:
+    - requested_slot: time
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: appointment_form
+  - slot_was_set:
+    - requested_slot: time
+  - slot_was_set:
+    - time: 09:00
+  - slot_was_set:
+    - time: 09:00:00
+  - slot_was_set:
+    - requested_slot: doctor
+  - slot_was_set:
+    - doctor: Ifrim
+  - slot_was_set:
+    - doctor: Ifrim
+  - slot_was_set:
+    - requested_slot: department
+  - slot_was_set:
+    - department: Neurologie
+  - slot_was_set:
+    - department: Neurologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - department: Neurologie
+  - slot_was_set:
+    - requested_slot: first_name
+  - intent: bot_challenge
+  - action: utter_iamabot
+  - action: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - first_name: Mircea
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_extra_details_form_filled
+  - slot_was_set:
+    - slot_ask_for_third_form: true
+  - action: preliminary_questions_form
+  - active_loop: preliminary_questions_form
+  - slot_was_set:
+    - last_name: Dumitrescu
+  - slot_was_set:
+    - requested_slot: gender
+  - slot_was_set:
+    - gender: cat ma costa?
+  - slot_was_set:
+    - gender: catmacosta
+  - slot_was_set:
+    - requested_slot: age
+  - slot_was_set:
+    - age: '29'
+  - slot_was_set:
+    - age: '29'
+  - slot_was_set:
+    - requested_slot: weight_risk
+  - slot_was_set:
+    - weight_risk: nu
+  - slot_was_set:
+    - weight_risk: false
+  - slot_was_set:
+    - requested_slot: hypertension
+  - slot_was_set:
+    - hypertension: nu
+  - slot_was_set:
+    - hypertension: false
+  - slot_was_set:
+    - requested_slot: smoker
+  - slot_was_set:
+    - smoker: nu
+  - slot_was_set:
+    - smoker: false
+  - slot_was_set:
+    - requested_slot: recent_surgeries
+  - slot_was_set:
+    - recent_surgeries: nu
+  - slot_was_set:
+    - recent_surgeries: false
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_save_in_database
+
+- story: stop conversation
+  steps:
+  - intent: book_appointment
+    entities:
+    - date: '2023-07-25'
+    - time: 13:00
+    - doctor: Mateescu
+    - department: Cardiologie
+  - slot_was_set:
+    - date: '2023-07-25'
+  - slot_was_set:
+    - time: 13:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - slot_ask_for_second_form: false
+  - slot_was_set:
+    - slot_ask_for_third_form: false
+  - action: appointment_form
+  - active_loop: appointment_form
+  - slot_was_set:
+    - date: '2023-07-25'
+  - slot_was_set:
+    - time: 13:00:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - slot_was_set:
+    - date: '2023-07-25'
+  - slot_was_set:
+    - time: 13:00:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_check_appointment_form_filled
+  - slot_was_set:
+    - slot_ask_for_second_form: true
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - date: '2023-07-25'
+  - slot_was_set:
+    - time: 13:00
+  - slot_was_set:
+    - doctor: Mateescu
+  - slot_was_set:
+    - department: Cardiologie
+  - slot_was_set:
+    - requested_slot: first_name
+  - intent: stop
+  - action: utter_stop
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null

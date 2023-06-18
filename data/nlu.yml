@@ -63,6 +63,18 @@ nlu:
     - vorbesc cu un om?
     - cine ești?
     - cu cine am de-a face?
+    - esti robot?
+- intent: stop
+  examples: |
+    - stop
+    - m-am razgandit
+    - m-am răzgândit
+    - nu mai vreau
+    - opreste
+    - oprește-te
+    - gata
+    - lasă
+    - lasa
 - intent: request_names
   examples: |
     - știi cum ma cheama?
@@ -102,6 +114,8 @@ nlu:
     - as vrea sa ma programez pe [12.07](date)
     - as vrea sa ma programez pe [12/12/2023](date)
     - ora [12](time), la Dr [Mateescu](doctor), [oftalmologie](department)
+    - as vrea să mă programez
+    - as vrea sa ma programez pe [2023-07-25](date), la ora [13:00](time), la dr [Mateescu](doctor), [Cardiologie](department)
 - intent: cancel_appointment
   examples: |
     - Aș vrea să [anulez](cancel) programarea de pe [21.03](date) de la ora [5](time)
@@ -121,7 +135,6 @@ nlu:
     - [Neurologie](department)
     - [Medicina Generala](department)
     - [Oftalmologie](department)
-    - [Pediatrie](department)
 - intent: select_doctor
   examples: |
     - [dr. Mateescu](doctor)
@@ -135,6 +148,7 @@ nlu:
     - dr [Ifrim](doctor)
     - [dr Tache](doctor)
     - [Enache](doctor)
+    - Dr [Ifrim](doctor)
 - intent: select_date
   examples: |
     - pe data de [02.12](date)
@@ -150,6 +164,7 @@ nlu:
     - [2023-07-23](date)
     - [2023-12-12](date)
     - [2023-07-22](date)
+    - [2023-07-25](date)
 - intent: select_time
   examples: |
     - ora [12](time)
@@ -168,6 +183,7 @@ nlu:
     - [12](time)
     - ora [1](time)
     - [24.06](date)
+    - [09:00](time)
 - intent: name_form
   examples: |
     - Ma numesc [Mircea](first_name) [Dumitrescu](last_name)
@@ -190,7 +206,6 @@ nlu:
     - [Florin](first_name) [Ionescu](last_name)
     - [Costel](first_name) [Cristescu](last_name)
     - [Costel](first_name) [Ionescu](last_name)
-    - [Ionescu](last_name)
 - intent: gender
   examples: |
     - [barbat](gender)
@@ -208,3 +223,37 @@ nlu:
     - [77](age) ani
     - [34](age)
     - [29](age) ani
+- intent: chitchat/ce_faci
+  examples: |
+    - Ce faci?
+    - Cum ești?
+    - cum esti?
+    - ce mai faci?
+    - Ce mai faceți?
+    - ești bine?
+    - sunteți bine?
+- intent: chitchat/durata_programare
+  examples: |
+    - Cat durează o consultație?
+    - Cât am de stat acolo?
+    - cât timp trebuie să rezerv?
+    - cat ma va tine ocupat?
+- intent: chitchat/ore_de_lucru
+  examples: |
+    - Cand e deschis?
+    - care sunt orele de activitate?
+    - intre ce si ce ore gasesc deschis?
+    - cand aveți deschis?
+    - e deschis?
+- intent: chitchat/cat_costa
+  examples: |
+    - cât ma costa o consultație?
+    - cati bani trebuie să pregătesc?
+    - cat ma va costa?
+    - care e prețul?
+    - cât costa?
+- intent: chitchat
+  examples: |
+    - ce mai faci?
+    - cand e deschis?
+    - cat ma costa?

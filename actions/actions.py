@@ -353,11 +353,40 @@ class SaveAppointmentInDatabase(Action):
         if self.allSlotsFilled(tracker):
             
             # dbs = DbReservationSave.execute('show databases')
-            createPatientsTable = """CREATE TABLE IF NOT EXISTS patients(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, first_name varchar(255), last_name varchar(255))"""
-            createDoctorsTable = """CREATE TABLE IF NOT EXISTS doctors(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, doctor_name varchar(255))"""
-            createPatientExtraInfo = """CREATE TABLE IF NOT EXISTS patients_extra_info(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_id INT, gender varchar(255), age INT, weight_risk varchar(255), hypertension varchar(255), smoker varchar(255), recent_surgeries varchar(255), FOREIGN KEY (patient_id) REFERENCES patients(id))"""
-            createSpecialtiesTable = """CREATE TABLE IF NOT EXISTS medical_specialties(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, specialty varchar(255))"""
-            createAppointmentsTable = """CREATE TABLE IF NOT EXISTS appointments(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, patient_id INT, date DATE, time TIME, doctor_id INT, specialty_id INT, FOREIGN KEY (patient_id) REFERENCES patients(id), FOREIGN KEY (specialty_id) REFERENCES medical_specialties(id), status varchar(255) DEFAULT 'active')"""
+            createPatientsTable = """
+            CREATE TABLE IF NOT EXISTS patients
+            (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            first_name varchar(255),
+            last_name varchar(255))"""
+            createDoctorsTable = """
+            CREATE TABLE IF NOT EXISTS doctors
+            (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            doctor_name varchar(255))"""
+            createPatientExtraInfo = """
+            CREATE TABLE IF NOT EXISTS patients_extra_info
+            (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            patient_id INT, gender varchar(255), age INT,
+            weight_risk varchar(255),
+            hypertension varchar(255),
+            smoker varchar(255),
+            recent_surgeries varchar(255),
+            FOREIGN KEY (patient_id) REFERENCES patients(id))"""
+            createSpecialtiesTable = """
+            CREATE TABLE IF NOT EXISTS medical_specialties
+            (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            specialty varchar(255))"""
+            createAppointmentsTable = """
+            CREATE TABLE IF NOT EXISTS appointments
+            (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            patient_id INT,
+            date DATE,
+            time TIME,
+            doctor_id INT,
+            specialty_id INT,
+            FOREIGN KEY (patient_id) REFERENCES patients(id),
+            FOREIGN KEY (specialty_id) REFERENCES medical_specialties(id),
+            FOREIGN KEY (doctor_id) REFERENCES doctors(id),
+            status varchar(255) DEFAULT 'active')"""
             
         
             cursor.execute(createPatientsTable)
