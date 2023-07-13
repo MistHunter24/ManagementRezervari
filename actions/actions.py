@@ -4,8 +4,8 @@ from rasa_sdk import Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 from datetime import datetime, date, time
-from rasa_sdk import Action, Tracker
-from rasa_sdk.events import SlotSet, ActiveLoop
+from rasa_sdk import Action
+from rasa_sdk.events import SlotSet
 import re
 from database_connection import DbReservationSave
 

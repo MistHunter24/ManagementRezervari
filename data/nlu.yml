@@ -106,24 +106,24 @@ nlu:
     - as vrea o programare
     - vreau sa ma programez
     - doctor [Mateescu](doctor)
-    - programare pe [12.05](date) ora [12](time) la [Cardiologie](department), dr [Mateescu](doctor)
-    - programare la ora [12](time), pe data de [07.09](date), dr [Mateescu](doctor), [Cardiologie](department)
-    - as vrea sa ma programez pe [12.07](date) la ora [12](time), la dr [Mateescu](doctor), [Oftalmologie](department)
-    - as vrea sa ma programez pe [12.07](date) la ora [12](time) la dr [Mateescu](doctor), [Oftalmologie](department)
-    - as vrea sa ma programez pe [12.07](date) la ora [14](time), la dr [Mateescu](doctor), [oftalmologie](department)
+    - programare pe [12.05](date) ora [12](time) la [Cardiologie](department), dr [Iliescu](doctor)
+    - programare la ora [12](time), pe data de [07.09](date), dr [Tatu](doctor), [Cardiologie](department)
+    - as vrea sa ma programez pe [12.07](date) la ora [12](time), la dr [Stănescu](doctor), [Neurologie](department)
+    - as vrea sa ma programez pe [12.07](date) la ora [12](time) la dr [Florescu](doctor), [Cardiologie](department)
+    - as vrea sa ma programez pe [12.07](date) la ora [14](time), la dr [Grigore](doctor), [Medicina Generala](department)
     - as vrea sa ma programez pe [12.07](date)
     - as vrea sa ma programez pe [12/12/2023](date)
-    - ora [12](time), la Dr [Mateescu](doctor), [oftalmologie](department)
+    - ora [12](time), la Dr [Mateescu](doctor), [Pediatrie](department)
     - as vrea să mă programez
-    - as vrea sa ma programez pe [2023-07-25](date), la ora [13:00](time), la dr [Mateescu](doctor), [Cardiologie](department)
+    - as vrea sa ma programez pe [2023-07-25](date), la ora [13:00](time), la dr [Mateescu](doctor), [dermatologie](department)
 - intent: cancel_appointment
   examples: |
     - Aș vrea să [anulez](cancel) programarea de pe [21.03](date) de la ora [5](time)
     - [anulez](cancel) pe [4.05](date) ora [15](time)
     - Vreau să [anulez](cancel) pentru [02.12](date) la [18](time)
-    - Nu mai pot să ajung pe [13](date) la [8](time)
-    - Aș vrea să [anulez](cancel) cu [dr. Popescu Iulian](doctor) pe [12.04](date) de la ora [11](time)
-    - Nu pot ajunge la [dr. Mateescu Matei](doctor) pe [01.01](date) ora [09](time)
+    - [Nu mai pot](cancel) să ajung pe [13](date) la [8](time)
+    - Aș vrea [să anulez](cancel) cu [dr. Popescu Iulian](doctor) pe [12.04](date) de la ora [11](time)
+    - [Nu pot ajunge](cancel) la [dr. Mateescu Matei](doctor) pe [01.01](date) ora [09](time)
     - vreau sa [anulez](cancel) o programare
     - nu pot ajunge pe [2023-07-22](date) la ora [14](time)
 - intent: select_department
